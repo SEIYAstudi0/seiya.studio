@@ -27,8 +27,11 @@
   html, body {
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
     overflow: hidden;
     font-family: "Inter", system-ui, sans-serif;
     background: radial-gradient(ellipse at 50% 0%, #0b2a72 0%, var(--bg) 60%);
@@ -141,19 +144,29 @@
   .alert-dot { animation: alertPulse 1.2s infinite; }
 
   /* =========================================================================
-     MODE AKSES TERBATAS KHUSUS REKAN BISNIS:
-     Tampilan tetap sama dengan Owner/Komisaris, namun hanya bisa mengklik
-     Bar Kontrol Atas, Pusat Perintah AI Eksekutif, Menu Akun, serta
-     Design Server Room (terbatas pada permintaan desain miliknya sendiri).
+     FULLSCREEN VIEWPORT ADAPTIVE (LAPTOP, TABLET & HP)
      ========================================================================= */
-  body.role-partner-only #left-dashboard-sidebar,
-  body.role-partner-only .hotspot-label {
-    pointer-events: none !important;
+  #app-view {
+    position: fixed;
+    inset: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+    padding: max(0.35rem, env(safe-area-inset-top, 0px)) max(0.35rem, env(safe-area-inset-right, 0px)) max(0.35rem, env(safe-area-inset-bottom, 0px)) max(0.35rem, env(safe-area-inset-left, 0px)) !important;
   }
-  body.role-partner-only #left-dashboard-sidebar a[data-zone-nav="design_vault"],
-  body.role-partner-only .hotspot-label[data-spot-id="design_vault"] {
-    pointer-events: auto !important;
-    cursor: pointer !important;
+  #control {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+  }
+  #canvas-container,
+  #canvas-container canvas {
+    width: 100% !important;
+    height: 100% !important;
   }
 
   /* =========================================================================
@@ -166,22 +179,14 @@
       max-width: 100vw !important;
       max-height: 100dvh !important;
       overflow: hidden !important;
-      padding-left: env(safe-area-inset-left, 0px);
-      padding-right: env(safe-area-inset-right, 0px);
-      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
     #app-view {
-      padding: 0.35rem !important;
-      gap: 0.35rem !important;
+      padding: max(0.3rem, env(safe-area-inset-top, 0px)) max(0.3rem, env(safe-area-inset-right, 0px)) max(0.3rem, env(safe-area-inset-bottom, 0px)) max(0.3rem, env(safe-area-inset-left, 0px)) !important;
+      gap: 0.3rem !important;
     }
     #app-view > header {
       padding: 0.35rem 0.6rem !important;
       gap: 0.4rem !important;
-    }
-    #control {
-      width: 100% !important;
-      height: 100% !important;
-      flex: 1 1 auto !important;
     }
     #meeting-chat-modal,
     #agent-mind-modal,
@@ -235,13 +240,43 @@
 <main id="login-view" class="grid h-full w-full place-items-center p-4">
   <section class="panel w-full max-w-sm p-6" aria-labelledby="login-title">
     <div class="mb-6 flex items-center gap-3">
-      <svg viewBox="0 0 48 48" class="h-11 w-11" aria-hidden="true">
-        <path d="M24 3 42 13.5v21L24 45 6 34.5v-21Z" fill="none" stroke="#fff" stroke-width="3"/>
-        <path d="M32 16H19a4 4 0 0 0 0 8h10a4 4 0 0 1 0 8H16" fill="none" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
+      <!-- Logo Cyberpunk Shield Katana S (SVG Vector Detail Tinggi) -->
+      <svg viewBox="0 0 120 120" class="h-14 w-14 shrink-0 drop-shadow-[0_0_12px_rgba(56,189,248,0.65)]" aria-hidden="true">
+        <defs>
+          <linearGradient id="cyberGradLogin" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="50%" stop-color="#a855f7"/>
+            <stop offset="100%" stop-color="#ec4899"/>
+          </linearGradient>
+          <linearGradient id="katanaBladeLogin" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#e0f2fe"/>
+            <stop offset="50%" stop-color="#38bdf8"/>
+            <stop offset="100%" stop-color="#f472b6"/>
+          </linearGradient>
+        </defs>
+        <!-- Outer Cyberpunk Crest & Circuit Wings -->
+        <path d="M22 28 L42 18 L60 28 L78 18 L98 28 L92 42 L102 52 L102 74 L86 92 L60 108 L34 92 L18 74 L18 52 L28 42 Z" fill="#050914" stroke="url(#cyberGradLogin)" stroke-width="2.5"/>
+        <!-- Circuit Traces -->
+        <path d="M30 34 H44 L50 28 M90 34 H76 L70 28 M24 62 H32 V72 M96 62 H88 V72 M46 94 L60 102 L74 94" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+        <circle cx="50" cy="28" r="2" fill="#38bdf8"/><circle cx="70" cy="28" r="2" fill="#ec4899"/>
+        <!-- Inner Hexagon Frame -->
+        <polygon points="60,26 88,42 88,76 60,92 32,76 32,42" fill="#071126" stroke="url(#cyberGradLogin)" stroke-width="3"/>
+        <polygon points="60,32 82,45 82,73 60,86 38,73 38,45" fill="none" stroke="#60a5fa" stroke-width="1.2" opacity="0.7"/>
+        <!-- Katana Blade Behind/Through S -->
+        <polygon points="84,36 89,41 34,92 28,94 31,88" fill="url(#katanaBladeLogin)" stroke="#ffffff" stroke-width="0.8"/>
+        <!-- Futuristic Geometric 'S' -->
+        <path d="M72 44 H50 L44 50 V58 L50 63 H70 L75 68 V75 L69 80 H47" fill="none" stroke="url(#cyberGradLogin)" stroke-width="7.5" stroke-linecap="square" stroke-linejoin="miter"/>
+        <path d="M72 44 H50 L44 50 V58 L50 63 H70 L75 68 V75 L69 80 H47" fill="none" stroke="#e0f2fe" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/>
+        <!-- Katana Hilt (Tsuka) & Guard (Tsuba) -->
+        <line x1="80" y1="34" x2="90" y2="44" stroke="#f472b6" stroke-width="3" stroke-linecap="round"/>
+        <line x1="85" y1="39" x2="101" y2="23" stroke="#1e293b" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="85" y1="39" x2="101" y2="23" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2.5 2.5"/>
+        <!-- Neon Lens Flares -->
+        <circle cx="32" cy="59" r="3" fill="#ffffff"/><circle cx="88" cy="59" r="3" fill="#ffffff"/>
       </svg>
       <div>
         <p class="text-lg font-bold leading-tight">SEIYA Studio</p>
-        <p class="text-[11px] text-blue-300">Tech Headquarters &amp; Command Center</p>
+        <p class="text-[11px] text-blue-300">Virtual Office</p>
       </div>
     </div>
     <h1 id="login-title" class="text-xl font-bold">Masuk ke Virtual Office</h1>
@@ -297,14 +332,33 @@
 </main>
 
 <!-- Main Application Dashboard -->
-<div id="app-view" class="hidden h-full w-full overflow-hidden flex-col gap-2 p-2 pb-2">
+<div id="app-view" class="hidden h-full w-full overflow-hidden flex-col gap-1.5">
 
   <!-- Top Header -->
   <header class="panel relative z-30 flex shrink-0 flex-wrap items-center gap-3 px-3 py-1.5">
     <div class="flex flex-1 items-center gap-2.5">
-      <svg viewBox="0 0 48 48" class="h-8 w-8" aria-hidden="true">
-        <path d="M24 3 42 13.5v21L24 45 6 34.5v-21Z" fill="none" stroke="#fff" stroke-width="3"/>
-        <path d="M32 16H19a4 4 0 0 0 0 8h10a4 4 0 0 1 0 8H16" fill="none" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
+      <!-- Logo Cyberpunk Shield Katana S di Header -->
+      <svg viewBox="0 0 120 120" class="h-10 w-10 shrink-0 drop-shadow-[0_0_8px_rgba(56,189,248,0.6)]" aria-hidden="true">
+        <defs>
+          <linearGradient id="cyberGradHdr" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="50%" stop-color="#a855f7"/>
+            <stop offset="100%" stop-color="#ec4899"/>
+          </linearGradient>
+          <linearGradient id="katanaBladeHdr" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#e0f2fe"/>
+            <stop offset="50%" stop-color="#38bdf8"/>
+            <stop offset="100%" stop-color="#f472b6"/>
+          </linearGradient>
+        </defs>
+        <path d="M22 28 L42 18 L60 28 L78 18 L98 28 L92 42 L102 52 L102 74 L86 92 L60 108 L34 92 L18 74 L18 52 L28 42 Z" fill="#050914" stroke="url(#cyberGradHdr)" stroke-width="2.5"/>
+        <polygon points="60,26 88,42 88,76 60,92 32,76 32,42" fill="#071126" stroke="url(#cyberGradHdr)" stroke-width="3"/>
+        <polygon points="84,36 89,41 34,92 28,94 31,88" fill="url(#katanaBladeHdr)" stroke="#ffffff" stroke-width="0.8"/>
+        <path d="M72 44 H50 L44 50 V58 L50 63 H70 L75 68 V75 L69 80 H47" fill="none" stroke="url(#cyberGradHdr)" stroke-width="7.5" stroke-linecap="square" stroke-linejoin="miter"/>
+        <path d="M72 44 H50 L44 50 V58 L50 63 H70 L75 68 V75 L69 80 H47" fill="none" stroke="#e0f2fe" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/>
+        <line x1="80" y1="34" x2="90" y2="44" stroke="#f472b6" stroke-width="3" stroke-linecap="round"/>
+        <line x1="85" y1="39" x2="101" y2="23" stroke="#1e293b" stroke-width="6.5" stroke-linecap="round"/>
+        <line x1="85" y1="39" x2="101" y2="23" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2.5 2.5"/>
       </svg>
       <div>
         <h1 class="text-base font-bold leading-tight">SEIYA Studio</h1>
@@ -333,7 +387,7 @@
       <span class="dot !h-2.5 !w-2.5"></span>
       <div>
         <p class="text-sm font-semibold leading-tight">Online</p>
-        <p class="text-[10px] text-blue-200">19 AI Agents Active</p>
+        <p class="text-[10px] text-blue-200">20 AI Agents Active</p>
       </div>
     </div>
 
@@ -382,6 +436,16 @@
 
       <!-- Kontrol Khusus Owner & Komisaris (Otomatis disembunyikan untuk Rekan Bisnis) -->
       <div id="control-top-actions" class="flex flex-wrap items-center gap-2 pointer-events-auto">
+        <!-- Tombol Duduk / Berdiri untuk Owner & Komisaris (Muncul saat ruang/karakter Owner atau Komisaris diklik) -->
+        <div id="executive-seat-controls" class="hidden glass-panel rounded-xl p-1 items-center gap-1 border-amber-400/50">
+          <button type="button" id="btn-toggle-owner-sit" class="px-2 py-1 rounded-lg text-xs font-bold text-amber-200 hover:bg-amber-500/25 transition flex items-center gap-1" title="Duduk / Berdiri Owner">
+            <span>🪑</span><span id="owner-sit-label">Duduk Owner</span>
+          </button>
+          <button type="button" id="btn-toggle-comm-sit" class="px-2 py-1 rounded-lg text-xs font-bold text-pink-200 hover:bg-pink-500/25 transition flex items-center gap-1" title="Duduk / Berdiri Komisaris">
+            <span>🪑</span><span id="comm-sit-label">Duduk Komisaris</span>
+          </button>
+        </div>
+
         <!-- 3D Lighting Mood Selector -->
         <div class="glass-panel rounded-xl p-1 flex items-center gap-1">
           <button data-mood="night" class="mood-btn active px-2 py-1 rounded-lg text-xs font-medium text-white bg-blue-600/80 transition flex items-center gap-1" title="Mode Malam Sinematik">
@@ -413,85 +477,94 @@
     </div>
 
     <!-- Middle & Bottom Overlay Row inside Control Panel -->
-    <div class="relative z-20 flex min-h-0 flex-1 flex-col justify-between gap-2 px-3 pb-2 pointer-events-none">
-      <!-- Floating Left Sidebar: Dashboard Navigation (Khusus Owner & Komisaris) -->
-      <div id="left-dashboard-sidebar" class="panel glass pointer-events-auto flex max-h-[calc(100%-15.5rem)] w-52 flex-col overflow-y-auto text-[11px]">
-        <div class="flex items-center gap-1.5 border-b border-blue-500/30 px-2.5 py-1.5 text-[11px] font-semibold">
-          <i data-lucide="layout-dashboard"></i>Dashboard
+    <div class="relative z-20 flex min-h-0 flex-1 flex-col justify-between gap-2 px-3 pb-10 sm:pb-9 pointer-events-none">
+      <!-- Floating Left Sidebar: Dashboard Navigation (Default Minimize saat awal buka) -->
+      <div id="left-dashboard-sidebar" class="panel glass pointer-events-auto flex max-h-[calc(100%-15.5rem)] w-52 flex-col overflow-hidden text-[11px]">
+        <div class="flex items-center justify-between gap-1.5 border-b border-blue-500/30 px-2.5 py-1.5 text-[11px] font-semibold">
+          <span class="flex items-center gap-1.5"><i data-lucide="layout-dashboard"></i>Dashboard</span>
+          <button type="button" id="btn-toggle-dashboard-sidebar" class="rounded p-0.5 text-blue-200 hover:bg-blue-800/60 hover:text-white transition" title="Minimize / Maximize Dashboard">
+            <i id="dashboard-sidebar-icon" data-lucide="chevron-down" class="!w-3.5 !h-3.5"></i>
+          </button>
         </div>
 
-        <nav id="nav" class="p-1.5" aria-label="Navigasi utama">
-          <ul class="flex flex-col gap-0.5 text-[11px] font-medium">
-            <li><a href="#" data-zone-nav="overview" class="nav-item flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-blue-800/50"><i data-lucide="box"></i>Tampilan Keseluruhan</a></li>
-            <li><a href="#" data-zone-nav="boardroom" class="nav-item flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-blue-800/50"><i data-lucide="messages-square"></i>Komunikasi &amp; Rapat</a></li>
-            <li><a href="#" data-zone-nav="design_vault" class="nav-item flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-blue-800/50"><i data-lucide="hard-drive"></i>Design Server Room</a></li>
-          </ul>
-        </nav>
+        <div id="left-dashboard-content" class="hidden flex-col overflow-y-auto">
+          <nav id="nav" class="p-1.5" aria-label="Navigasi utama">
+            <ul class="flex flex-col gap-0.5 text-[11px] font-medium">
+              <li><a href="#" data-zone-nav="overview" class="nav-item flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-blue-800/50"><i data-lucide="box"></i>Tampilan Keseluruhan</a></li>
+              <li><a href="#" data-zone-nav="boardroom" class="nav-item flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-blue-800/50"><i data-lucide="messages-square"></i>Komunikasi &amp; Rapat</a></li>
+              <li><a href="#" data-zone-nav="design_vault" class="nav-item flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-blue-800/50"><i data-lucide="hard-drive"></i>Design Server Room</a></li>
+            </ul>
+          </nav>
 
-        <!-- Menu Khusus Owner & Komisaris: Verifikasi, Status Tidak Aktif, & Penutupan Semi-Otomatis Rekan Bisnis -->
-        <details id="owner-partners-section" class="sub hidden">
-          <summary>
-            <i data-lucide="briefcase"></i>
-            <span>Rekan Bisnis (<span id="active-partner-quota">0/50</span>)</span>
-            <span id="pending-partner-badge" class="hidden ml-1 px-1.5 py-0.2 rounded-full bg-amber-500 text-slate-950 text-[10px] font-bold">0</span>
-            <i data-lucide="chevron-down" class="chev"></i>
-          </summary>
-          <div id="owner-partners-list" class="body flex flex-col gap-2 text-xs"></div>
-        </details>
+          <!-- Menu Khusus Owner & Komisaris: Verifikasi, Status Tidak Aktif, & Penutupan Semi-Otomatis Rekan Bisnis -->
+          <details id="owner-partners-section" class="sub hidden">
+            <summary>
+              <i data-lucide="briefcase"></i>
+              <span>Rekan Bisnis (<span id="active-partner-quota">0/50</span>)</span>
+              <span id="pending-partner-badge" class="hidden ml-1 px-1.5 py-0.2 rounded-full bg-amber-500 text-slate-950 text-[10px] font-bold">0</span>
+              <i data-lucide="chevron-down" class="chev"></i>
+            </summary>
+            <div id="owner-partners-list" class="body flex flex-col gap-2 text-xs"></div>
+          </details>
 
-        <details class="sub">
-          <summary class="!text-[10.5px] !py-1.5 !px-2.5"><i data-lucide="users" class="!w-3.5 !h-3.5"></i>Penghuni Kantor <span id="live-online-count-badge" class="ml-1 px-1.5 py-0.2 rounded-full bg-emerald-500/25 text-emerald-300 text-[9px] font-bold">Live</span><i data-lucide="chevron-down" class="chev"></i></summary>
-          <ul id="live-occupants-list" class="body flex flex-col gap-1.5 text-[10.5px]">
-            <li class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('owner')">
-              <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-amber-300 text-[9px] font-bold text-slate-900">OW</span>
-              <div class="min-w-0"><p class="font-medium truncate">Owner (SuperSEIYA)</p><p id="presence-owner-status" class="flex items-center gap-1 text-[9.5px] text-green-400 truncate"><span class="dot !h-1.5 !w-1.5"></span>Ruang Owner</p></div>
-            </li>
-            <li class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('commissioner')">
-              <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-pink-300 text-[9px] font-bold text-slate-900">KR</span>
-              <div class="min-w-0"><p class="font-medium truncate">Komisaris (SuperPRICILIA)</p><p id="presence-comm-status" class="flex items-center gap-1 text-[9.5px] text-slate-400 truncate"><span class="w-1.5 h-1.5 rounded-full bg-slate-500 shrink-0"></span>Offline</p></div>
-            </li>
-            <li id="presence-partners-container" class="flex flex-col gap-1"></li>
-            <li class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('noc')">
-              <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-sky-200 text-[9px] font-bold text-slate-900">AI</span>
-              <div class="min-w-0"><p class="font-medium truncate">14 AI Specialist Terpadu</p><p class="flex items-center gap-1 text-[9.5px] text-sky-400 truncate"><span class="dot !h-1.5 !w-1.5 !bg-sky-400"></span>Gemini AI Active</p></div>
-            </li>
-            <li class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('security')">
-              <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-emerald-300 text-[9px] font-bold text-slate-900">SC</span>
-              <div class="min-w-0"><p class="font-medium truncate">3 AI Security Patrol</p><p class="flex items-center gap-1 text-[9.5px] text-emerald-400 truncate"><span class="dot !h-1.5 !w-1.5 !bg-emerald-400"></span>Pos Security</p></div>
-            </li>
-          </ul>
-        </details>
+          <details class="sub">
+            <summary class="!text-[10.5px] !py-1.5 !px-2.5"><i data-lucide="users" class="!w-3.5 !h-3.5"></i>Penghuni Kantor <span id="live-online-count-badge" class="ml-1 px-1.5 py-0.2 rounded-full bg-emerald-500/25 text-emerald-300 text-[9px] font-bold">Live</span><i data-lucide="chevron-down" class="chev"></i></summary>
+            <ul id="live-occupants-list" class="body flex flex-col gap-1.5 text-[10.5px]">
+              <li class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('owner')">
+                <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-amber-300 text-[9px] font-bold text-slate-900">OW</span>
+                <div class="min-w-0"><p class="font-medium truncate">Owner (SuperSEIYA)</p><p id="presence-owner-status" class="flex items-center gap-1 text-[9.5px] text-green-400 truncate"><span class="dot !h-1.5 !w-1.5"></span>Ruang Owner</p></div>
+              </li>
+              <li class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('commissioner')">
+                <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-pink-300 text-[9px] font-bold text-slate-900">KR</span>
+                <div class="min-w-0"><p class="font-medium truncate">Komisaris (SuperPRICILIA)</p><p id="presence-comm-status" class="flex items-center gap-1 text-[9.5px] text-slate-400 truncate"><span class="w-1.5 h-1.5 rounded-full bg-slate-500 shrink-0"></span>Offline</p></div>
+              </li>
+              <li id="presence-partners-container" class="flex flex-col gap-1"></li>
+              <li class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('lobby')">
+                <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-cyan-300 text-[9px] font-bold text-slate-900">LB</span>
+                <div class="min-w-0"><p class="font-medium truncate">1 AI Lobby Notif &amp; Data</p><p class="flex items-center gap-1 text-[9.5px] text-cyan-400 truncate"><span class="dot !h-1.5 !w-1.5 !bg-cyan-400"></span>Lobby Reception</p></div>
+              </li>
+              <li class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('noc')">
+                <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-sky-200 text-[9px] font-bold text-slate-900">AI</span>
+                <div class="min-w-0"><p class="font-medium truncate">14 AI Specialist Terpadu</p><p class="flex items-center gap-1 text-[9.5px] text-sky-400 truncate"><span class="dot !h-1.5 !w-1.5 !bg-sky-400"></span>Gemini AI Active</p></div>
+              </li>
+              <li class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('security')">
+                <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-emerald-300 text-[9px] font-bold text-slate-900">SC</span>
+                <div class="min-w-0"><p class="font-medium truncate">3 AI Security Patrol</p><p class="flex items-center gap-1 text-[9.5px] text-emerald-400 truncate"><span class="dot !h-1.5 !w-1.5 !bg-emerald-400"></span>Pos Security</p></div>
+              </li>
+            </ul>
+          </details>
 
-        <details class="sub">
-          <summary><i data-lucide="bar-chart-3"></i>Proyek Aktif<i data-lucide="chevron-down" class="chev"></i></summary>
-          <div class="body flex flex-col gap-2 text-xs">
-            <h3 class="font-semibold">Gedung Perkantoran Modern</h3>
-            <div>
-              <p class="mb-1 text-[11px] text-blue-200">Progress Proyek</p>
-              <div class="flex items-center gap-2">
-                <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-blue-950" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" aria-label="Progress proyek">
-                  <div class="h-full w-[72%] rounded-full bg-gradient-to-r from-sky-400 to-blue-500"></div>
+          <details class="sub">
+            <summary><i data-lucide="bar-chart-3"></i>Proyek Aktif<i data-lucide="chevron-down" class="chev"></i></summary>
+            <div class="body flex flex-col gap-2 text-xs">
+              <h3 class="font-semibold">Gedung Perkantoran Modern</h3>
+              <div>
+                <p class="mb-1 text-[11px] text-blue-200">Progress Proyek</p>
+                <div class="flex items-center gap-2">
+                  <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-blue-950" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" aria-label="Progress proyek">
+                    <div class="h-full w-[72%] rounded-full bg-gradient-to-r from-sky-400 to-blue-500"></div>
+                  </div>
+                  <span class="text-sm font-bold">72%</span>
                 </div>
-                <span class="text-sm font-bold">72%</span>
+              </div>
+              <div class="flex items-center justify-between gap-2 text-[11px]">
+                <span class="flex items-center gap-1"><i data-lucide="calendar" class="!h-3.5 !w-3.5"></i>Target: 30 Des 2026</span>
+                <span class="rounded-full bg-green-600 px-2 py-0.5 font-semibold">On Track</span>
               </div>
             </div>
-            <div class="flex items-center justify-between gap-2 text-[11px]">
-              <span class="flex items-center gap-1"><i data-lucide="calendar" class="!h-3.5 !w-3.5"></i>Target: 30 Des 2026</span>
-              <span class="rounded-full bg-green-600 px-2 py-0.5 font-semibold">On Track</span>
-            </div>
-          </div>
-        </details>
+          </details>
 
-        <div class="border-t border-blue-500/25 p-1.5">
-          <button data-logout class="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-xs font-medium text-red-300 hover:bg-red-500/15">
-            <i data-lucide="log-out"></i>Logout
-          </button>
+          <div class="border-t border-blue-500/25 p-1.5">
+            <button data-logout class="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-xs font-medium text-red-300 hover:bg-red-500/15">
+              <i data-lucide="log-out"></i>Logout
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Panel Perintah Eksekutif (SuperSEIYA & SuperPRICILIA & Rekan Bisnis) — Menempel di Dasar Bawah Control Panel -->
-      <section id="executive-command-panel" class="pointer-events-auto mt-auto max-w-sm w-full glass-panel rounded-2xl p-3 text-white shadow-2xl">
-        <div class="flex items-center justify-between gap-2 mb-1.5">
+      <!-- Panel Perintah Eksekutif (SuperSEIYA & SuperPRICILIA & Rekan Bisnis) — Dinaikkan agar terlihat utuh -->
+      <section id="executive-command-panel" class="pointer-events-auto mt-auto mb-2 max-w-sm w-full glass-panel rounded-2xl p-2.5 text-white shadow-2xl">
+        <div class="flex items-center justify-between gap-2 mb-1">
           <span id="executive-panel-heading" class="text-[10px] font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
             Pusat Perintah AI Eksekutif
@@ -506,22 +579,22 @@
           </div>
         </div>
 
-        <!-- Command Text Input Form (4 Baris) -->
-        <form id="executive-cmd-form" class="flex flex-col gap-1.5">
-          <textarea id="executive-cmd-input" rows="4" placeholder="Ketik perintah lengkap untuk Project Director & Project Manager..." class="w-full resize-none bg-slate-950/80 border border-white/15 rounded-xl px-2.5 py-1.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400"></textarea>
+        <!-- Command Text Input Form -->
+        <form id="executive-cmd-form" class="flex flex-col gap-1">
+          <textarea id="executive-cmd-input" rows="3" placeholder="Ketik perintah lengkap untuk Project Director & Project Manager..." class="w-full resize-none bg-slate-950/80 border border-white/15 rounded-xl px-2.5 py-1.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400"></textarea>
           <button type="submit" id="executive-cmd-submit-btn" class="w-full px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-xs shadow transition active:scale-95 whitespace-nowrap">
             Kirim Perintah Eksekutif
           </button>
         </form>
 
         <!-- Live Command Dispatch Log -->
-        <div id="executive-cmd-log" class="mt-1.5 pt-1.5 border-t border-white/10 text-[11px] text-slate-300 flex items-center justify-between gap-2">
+        <div id="executive-cmd-log" class="mt-1 pt-1 border-t border-white/10 text-[11px] text-slate-300 flex items-center justify-between gap-2">
           <span class="truncate"><strong class="text-amber-300">SuperSEIYA:</strong> Siap memerintah Project Director Konstruksi.</span>
           <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 shrink-0">STANDBY</span>
         </div>
 
         <!-- Autonomous Research & Agent Mind History Bar (Khusus Owner & Komisaris) -->
-        <div id="autonomous-vault-bar" class="mt-1.5 pt-1.5 border-t border-white/10 flex items-center justify-between gap-2">
+        <div id="autonomous-vault-bar" class="mt-1 pt-1 border-t border-white/10 flex items-center justify-between gap-2">
           <span class="text-[10px] text-cyan-300 flex items-center gap-1.5 truncate">
             <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping shrink-0"></span>
             <span id="autonomous-status-text" class="truncate">Riset Otomatis &amp; Koordinasi 20-Thn Aktif</span>
@@ -531,6 +604,11 @@
           </button>
         </div>
       </section>
+    </div>
+
+    <!-- Copyright Footer di Sisi Kanan Bawah -->
+    <div class="pointer-events-none absolute bottom-1.5 right-3 z-20 select-none text-[10px] font-semibold tracking-wide text-black">
+      copyright© 2026 - SEIYAstudioV1.1
     </div>
 
     <!-- Agent Mind & Design Server Vault Modal Drawer -->
@@ -648,8 +726,8 @@
       <!-- Header -->
       <div class="flex items-start justify-between gap-3 border-b border-blue-500/30 pb-3">
         <div>
-          <h3 id="meeting-chat-title" class="text-base font-bold text-white leading-tight">Transkrip Rapat Tim AI &amp; Dokumen Hasil Kerja</h3>
-          <p class="text-[11px] text-sky-300 mt-0.5">Periksa percakapan koordinasi antar agen dan unduh dokumen hasil kerja untuk ditinjau</p>
+          <h3 id="meeting-chat-title" class="text-base font-bold text-white leading-tight">Dokumen Hasil Kerja Tim AI</h3>
+          <p class="text-[11px] text-sky-300 mt-0.5">Periksa dokumen hasil kerja tim AI dan unduh untuk ditinjau</p>
         </div>
         <button type="button" id="btn-close-meeting-modal" class="text-blue-200 hover:text-white p-1.5 rounded-lg bg-slate-900/70 border border-blue-500/30 hover:bg-blue-800/50 transition" title="Tutup">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -698,10 +776,7 @@
       <!-- Tab Navigasi & Badge Status -->
       <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs">
         <div class="flex items-center gap-2">
-          <button type="button" id="tab-meeting-chat" class="px-3 py-1.5 rounded-full bg-blue-600 text-white font-semibold border border-sky-400/50 shadow transition flex items-center gap-1.5">
-            <span>💬</span><span>Percakapan Koordinasi Agen</span>
-          </button>
-          <button type="button" id="tab-meeting-doc" class="px-3 py-1.5 rounded-full bg-slate-900/80 text-blue-200 hover:text-white hover:bg-blue-900/50 font-semibold border border-blue-500/30 transition flex items-center gap-1.5">
+          <button type="button" id="tab-meeting-doc" class="px-3 py-1.5 rounded-full bg-blue-600 text-white font-semibold border border-sky-400/50 shadow transition flex items-center gap-1.5">
             <span>📄</span><span>Dokumen Hasil Kerja</span>
           </button>
           <button type="button" id="btn-trigger-meeting-turn" class="px-2.5 py-1.5 rounded-full bg-indigo-600/40 hover:bg-indigo-500/60 text-indigo-100 border border-indigo-400/40 font-semibold transition">
@@ -713,7 +788,7 @@
         </span>
       </div>
 
-      <!-- Kontainer Utama: Percakapan / Dokumen -->
+      <!-- Kontainer Utama: Dokumen Hasil Kerja -->
       <div class="mt-3 rounded-xl bg-slate-950/75 border border-blue-500/30 p-3">
         <!-- Info Topik Rapat -->
         <div class="rounded-lg bg-blue-950/50 border border-blue-400/30 px-3 py-2 text-[11px] text-sky-200 mb-2.5 flex flex-wrap items-center justify-between gap-2">
@@ -721,11 +796,8 @@
           <span id="meeting-meta-label" class="text-blue-300 font-semibold shrink-0">Pemberi Tugas: SuperSEIYA • Versi: v1</span>
         </div>
 
-        <!-- Panel 1: Percakapan Koordinasi Agen -->
-        <div id="meeting-chat-feed" class="max-h-60 overflow-y-auto space-y-2.5 pr-1 text-xs"></div>
-
-        <!-- Panel 2: Dokumen Hasil Kerja (Hidden saat tab percakapan aktif) -->
-        <div id="meeting-doc-panel" class="hidden">
+        <!-- Panel Dokumen Hasil Kerja -->
+        <div id="meeting-doc-panel">
           <div class="flex flex-wrap items-center justify-between gap-1.5 text-[11px] text-emerald-300 font-semibold mb-1.5">
             <div class="flex items-center gap-1.5">
               <button type="button" data-doc-tab="txt" class="doc-format-tab px-2.5 py-0.5 rounded-md bg-blue-600 text-white text-[10px]">Ringkasan (.TXT)</button>
@@ -1377,6 +1449,23 @@
   tick();
   setInterval(tick, 1000);
 
+  // Minimize / Maximize Dashboard Sidebar (Default Minimize saat awal buka)
+  let isDashboardMinimized = true;
+  document.getElementById("btn-toggle-dashboard-sidebar")?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    isDashboardMinimized = !isDashboardMinimized;
+    const contentEl = document.getElementById("left-dashboard-content");
+    const iconEl = document.getElementById("dashboard-sidebar-icon");
+    if (contentEl) {
+      contentEl.classList.toggle("hidden", isDashboardMinimized);
+      contentEl.classList.toggle("flex", !isDashboardMinimized);
+    }
+    if (iconEl) {
+      iconEl.setAttribute("data-lucide", isDashboardMinimized ? "chevron-down" : "chevron-up");
+      lucide.createIcons();
+    }
+  });
+
   document.querySelectorAll("#nav .nav-item").forEach(a => a.addEventListener("click", e => {
     e.preventDefault();
     const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
@@ -1422,6 +1511,8 @@
   let isAgentsResting = false;
   let executiveSummonTarget = null;
   let activeZoneKey = 'overview';
+  let isOwnerSeated = false;
+  let isCommSeated = false;
 
   const camTransition = {
     active: false,
@@ -1504,7 +1595,7 @@
   };
 
   const HOTSPOTS = [
-    { id: "lobby", name: "Lobby", pos: new THREE.Vector3(-1.0, 4.1, -1.2) },
+    { id: "lobby", name: "Lobby (1 AI Data & Notif)", pos: new THREE.Vector3(-1.0, 4.1, -1.2) },
     { id: "security", name: "Pos Security (3 AI)", pos: new THREE.Vector3(-11.8, 3.3, 5.8) },
     { id: "vip", name: "Rest Room", pos: new THREE.Vector3(-6.5, 3.3, 5.8) },
     { id: "boardroom", name: "Meeting Room", pos: new THREE.Vector3(2.3, 3.3, 6.2) },
@@ -1519,17 +1610,91 @@
     { id: "design_vault", name: "Design Server Room", pos: new THREE.Vector3(-6.8, 3.9, -14.8) }
   ];
 
+  // =========================================================================
+  // NAVIGASI KOORDINAT BEBAS DINDING (WALL-SAFE WAYPOINT GRAPH)
+  // =========================================================================
+  const ROOM_DOORS = {
+    lobby:        [{ x: -1.0, z: 0.8 }],
+    security:     [{ x: -10.2, z: 4.1 }],
+    vip:          [{ x: -6.5, z: 2.1 }],
+    boardroom:    [{ x: 2.3, z: 2.1 }],
+    pod:          [{ x: 8.9, z: 1.3 }],
+    workspace:    [{ x: -6.0, z: -1.2 }],
+    pantry:       [{ x: -9.95, z: -5.4 }],
+    noc:          [{ x: -4.2, z: -4.1 }],
+    visual3d:     [{ x: 1.0, z: -4.1 }],
+    rnd:          [{ x: 7.8, z: -3.2 }],
+    design_vault: [{ x: -6.8, z: -11.4 }],
+    owner:        [{ x: 13.4, z: -3.7 }],
+    commissioner: [{ x: 13.4, z: 2.3 }]
+  };
+
+  function detectRoomFromCoords(x, z) {
+    if (z < -12.0) return 'design_vault';
+    if (x > 13.9) return z < -0.7 ? 'owner' : 'commissioner';
+    if (x >= 11.7 && x <= 13.9) return 'corridor';
+    if (z < -4.5 && x < -9.9) return 'pantry';
+    if (z < -4.5 && x >= -9.9 && x < -1.8) return 'noc';
+    if (z < -4.5 && x >= -1.8 && x < 3.8) return 'visual3d';
+    if (z < -3.3 && x >= 3.8) return 'rnd';
+    if (z >= -4.5 && z < 2.5 && x < -6.3) return 'workspace';
+    if (z >= 2.6 && x < -10.2) return 'security';
+    if (z >= 2.6 && x >= -10.2 && x < -2.8) return 'vip';
+    if (z >= 2.6 && x >= -1.7 && x < 6.2) return 'boardroom';
+    if (z >= 1.4 && x >= 6.2) return 'pod';
+    return 'lobby';
+  }
+
+  function buildWallSafePath(fromVec, toVec) {
+    const startRoom = detectRoomFromCoords(fromVec.x, fromVec.z);
+    const endRoom = detectRoomFromCoords(toVec.x, toVec.z);
+    const y = toVec.y;
+    const path = [];
+
+    if (startRoom === endRoom) {
+      path.push(toVec.clone());
+      return path;
+    }
+
+    if (startRoom !== 'lobby' && startRoom !== 'corridor' && ROOM_DOORS[startRoom]) {
+      const exitDoor = ROOM_DOORS[startRoom][0];
+      path.push(new THREE.Vector3(exitDoor.x, y, exitDoor.z));
+    }
+
+    const startInEast = (startRoom === 'owner' || startRoom === 'commissioner' || startRoom === 'corridor');
+    const endInEast = (endRoom === 'owner' || endRoom === 'commissioner' || endRoom === 'corridor');
+
+    if (startInEast && !endInEast) {
+      path.push(new THREE.Vector3(12.9, y, 2.1));
+      path.push(new THREE.Vector3(10.8, y, 2.1));
+    } else if (!startInEast && endInEast) {
+      path.push(new THREE.Vector3(10.8, y, 2.1));
+      path.push(new THREE.Vector3(12.9, y, 2.1));
+    }
+
+    if (endRoom !== 'lobby' && endRoom !== 'corridor' && ROOM_DOORS[endRoom]) {
+      const entryDoor = ROOM_DOORS[endRoom][0];
+      path.push(new THREE.Vector3(entryDoor.x, y, entryDoor.z));
+    }
+
+    path.push(toVec.clone());
+    return path;
+  }
+
+  function setBotDestinationSafe(bot, targetVec) {
+    if (!bot || !targetVec) return;
+    bot.walkPath = buildWallSafePath(bot.group.position, targetVec);
+  }
+
   function createAnimatedScreen(type) {
     const canvas = document.createElement('canvas');
     canvas.width = 512;
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
     const texture = new THREE.CanvasTexture(canvas);
-    texture.minFilter = THREE.LinearFilter;
-
-    const screenObj = { canvas, ctx, texture, type, phase: Math.random() * 10 };
-    dynamicCanvases.push(screenObj);
-    updateSingleScreenCanvas(screenObj, 0);
+    const scrObj = { canvas, ctx, texture, type, lastFrame: -1 };
+    dynamicCanvases.push(scrObj);
+    updateSingleScreenCanvas(scrObj, 0);
     return texture;
   }
 
@@ -1540,113 +1705,389 @@
     const isAlert = currentMood === 'alert';
 
     if (type === 'logo') {
-      const grad = ctx.createRadialGradient(w / 2, h / 2, 15, w / 2, h / 2, 270);
-      if (isAlert) {
-        grad.addColorStop(0, '#991b1b');
-        grad.addColorStop(0.6, '#450a0a');
-        grad.addColorStop(1, '#09050d');
-      } else {
-        grad.addColorStop(0, '#1d4ed8');
-        grad.addColorStop(0.55, '#0c2461');
-        grad.addColorStop(1, '#040b1e');
-      }
-      ctx.fillStyle = grad;
+      ctx.fillStyle = isAlert ? '#19050a' : '#040a17';
       ctx.fillRect(0, 0, w, h);
 
-      ctx.strokeStyle = isAlert ? 'rgba(248, 113, 113, 0.18)' : 'rgba(56, 189, 248, 0.16)';
-      ctx.lineWidth = 1;
-      const offset = (time * 12) % 24;
-      for (let x = offset; x < w; x += 24) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      ctx.strokeStyle = isAlert ? 'rgba(239, 68, 68, 0.28)' : 'rgba(56, 189, 248, 0.2)';
+      ctx.lineWidth = 1.5;
+      for (let gx = 0; gx <= w; gx += 32) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
       }
-      for (let y = 0; y < h; y += 24) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      for (let gy = 0; gy <= h; gy += 32) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
       }
 
-      ctx.save();
-      ctx.translate(w / 2, h / 2);
-      ctx.rotate(time * 0.35);
-      ctx.strokeStyle = isAlert ? 'rgba(252, 165, 165, 0.45)' : 'rgba(125, 211, 252, 0.4)';
-      ctx.lineWidth = 2;
-      ctx.setLineDash([14, 10]);
-      ctx.beginPath();
-      ctx.arc(0, 0, 86, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
-
-      const pulse = 1 + Math.sin(time * 3) * 0.04;
+      // Draw Cyberpunk Shield + Geometric 'S' + Katana + "SEIYA STUDIO" + "VIRTUAL OFFICE CYBERPUNK HQ" at Center (Lobby 3D Screen)
+      const pulse = 1 + Math.sin(time * 3) * 0.025;
       ctx.save();
       ctx.translate(w / 2, h / 2);
       ctx.scale(pulse, pulse);
+
+      const neonGrad = ctx.createLinearGradient(-85, -105, 85, 105);
+      if (isAlert) {
+        neonGrad.addColorStop(0, '#fca5a5');
+        neonGrad.addColorStop(0.5, '#ef4444');
+        neonGrad.addColorStop(1, '#f97316');
+      } else {
+        neonGrad.addColorStop(0, '#38bdf8');
+        neonGrad.addColorStop(0.5, '#a855f7');
+        neonGrad.addColorStop(1, '#ec4899');
+      }
+
+      // 1. Top Cyberpunk Header Banner ("SEIYA" & "STUDIO")
+      ctx.save();
+      ctx.translate(0, -82);
       ctx.shadowColor = isAlert ? '#ef4444' : '#38bdf8';
-      ctx.shadowBlur = 22;
-      ctx.strokeStyle = isAlert ? '#fca5a5' : '#bae6fd';
-      ctx.lineWidth = 6;
+      ctx.shadowBlur = 14;
+      ctx.fillStyle = '#050914';
+      ctx.strokeStyle = neonGrad;
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.moveTo(-78, -24);
+      ctx.lineTo(78, -24);
+      ctx.lineTo(94, 8);
+      ctx.lineTo(-94, 8);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Glitch accent bars beside SEIYA
+      ctx.fillStyle = isAlert ? '#f87171' : '#38bdf8';
+      ctx.fillRect(-102, -16, 14, 3);
+      ctx.fillRect(-98, -6, 10, 2);
+      ctx.fillStyle = isAlert ? '#fb923c' : '#ec4899';
+      ctx.fillRect(88, -14, 14, 3);
+      ctx.fillRect(86, -4, 12, 2);
+
+      // Text "SEIYA"
+      ctx.font = '900 31px "Inter", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const titleGrad = ctx.createLinearGradient(-70, -20, 70, 4);
+      if (isAlert) {
+        titleGrad.addColorStop(0, '#fecaca');
+        titleGrad.addColorStop(0.5, '#f87171');
+        titleGrad.addColorStop(1, '#fb923c');
+      } else {
+        titleGrad.addColorStop(0, '#7dd3fc');
+        titleGrad.addColorStop(0.55, '#38bdf8');
+        titleGrad.addColorStop(1, '#e879f9');
+      }
+      ctx.fillStyle = titleGrad;
+      ctx.fillText('SEIYA', 0, -8);
+
+      // Sub-plate "STUDIO"
+      ctx.fillStyle = '#071126';
+      ctx.fillRect(-46, 5, 92, 16);
+      ctx.strokeStyle = isAlert ? '#f87171' : '#38bdf8';
+      ctx.lineWidth = 1.4;
+      ctx.strokeRect(-46, 5, 92, 16);
+
+      ctx.font = '800 11.5px "Inter", sans-serif';
+      ctx.fillStyle = '#e0f2fe';
+      ctx.fillText('S T U D I O', 0, 13.5);
+      ctx.restore();
+
+      // 2. Central Cyberpunk Shield + Hexagon + Katana + 'S'
+      ctx.save();
+      ctx.translate(0, 6);
+      ctx.scale(0.72, 0.72);
+
+      // Outer Shield Crest
+      ctx.shadowColor = isAlert ? '#ef4444' : '#38bdf8';
+      ctx.shadowBlur = 18;
+      ctx.fillStyle = '#050914';
+      ctx.strokeStyle = neonGrad;
+      ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(-64, -56);
+      ctx.lineTo(-30, -76);
+      ctx.lineTo(0, -58);
+      ctx.lineTo(30, -76);
+      ctx.lineTo(64, -56);
+      ctx.lineTo(54, -30);
+      ctx.lineTo(74, -12);
+      ctx.lineTo(74, 28);
+      ctx.lineTo(46, 62);
+      ctx.lineTo(0, 92);
+      ctx.lineTo(-46, 62);
+      ctx.lineTo(-74, 28);
+      ctx.lineTo(-74, -12);
+      ctx.lineTo(-54, -30);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Inner Hexagon
       ctx.beginPath();
       for (let i = 0; i < 6; i++) {
         const a = (Math.PI / 3) * i - Math.PI / 2;
-        const r = 64;
+        const r = 62;
         if (i === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
         else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
       }
       ctx.closePath();
+      ctx.fillStyle = '#071126';
+      ctx.fill();
+      ctx.lineWidth = 4.5;
       ctx.stroke();
 
+      // Katana Blade Diagonal
+      const bladeGrad = ctx.createLinearGradient(52, -52, -58, 58);
+      bladeGrad.addColorStop(0, '#e0f2fe');
+      bladeGrad.addColorStop(0.5, '#38bdf8');
+      bladeGrad.addColorStop(1, '#f472b6');
+      ctx.fillStyle = bladeGrad;
+      ctx.beginPath();
+      ctx.moveTo(48, -48);
+      ctx.lineTo(56, -40);
+      ctx.lineTo(-48, 56);
+      ctx.lineTo(-60, 60);
+      ctx.lineTo(-55, 48);
+      ctx.closePath();
+      ctx.fill();
+
+      // Geometric Cyberpunk 'S'
+      ctx.strokeStyle = neonGrad;
+      ctx.lineWidth = 14;
+      ctx.lineCap = 'square';
+      ctx.lineJoin = 'miter';
+      ctx.beginPath();
+      ctx.moveTo(26, -32);
+      ctx.lineTo(-20, -32);
+      ctx.lineTo(-32, -20);
+      ctx.lineTo(-32, -4);
+      ctx.lineTo(-20, 6);
+      ctx.lineTo(20, 6);
+      ctx.lineTo(32, 16);
+      ctx.lineTo(32, 32);
+      ctx.lineTo(20, 42);
+      ctx.lineTo(-26, 42);
+      ctx.stroke();
+
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 3.5;
+      ctx.stroke();
+
+      // Katana Guard (Tsuba) & Hilt (Tsuka)
+      ctx.strokeStyle = '#ec4899';
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(42, -52);
+      ctx.lineTo(60, -34);
+      ctx.stroke();
+
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 11;
+      ctx.beginPath();
+      ctx.moveTo(51, -43);
+      ctx.lineTo(80, -72);
+      ctx.stroke();
+
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(51, -43);
+      ctx.lineTo(80, -72);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Side Neon Flares
       ctx.fillStyle = '#ffffff';
-      ctx.font = '800 66px Inter, sans-serif';
+      ctx.beginPath(); ctx.arc(-54, 0, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(54, 0, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // 3. Bottom Tagline ("VIRTUAL OFFICE" & "CYBERPUNK HQ")
+      ctx.shadowColor = isAlert ? '#ef4444' : '#38bdf8';
+      ctx.shadowBlur = 10;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('S', 0, 3);
+
+      ctx.font = '800 12px "Inter", sans-serif';
+      ctx.fillStyle = isAlert ? '#fecaca' : '#67e8f9';
+      ctx.fillText('V I R T U A L   O F F I C E', 0, 86);
+
+      ctx.shadowColor = isAlert ? '#f97316' : '#ec4899';
+      ctx.font = '800 11.5px "Inter", sans-serif';
+      ctx.fillStyle = isAlert ? '#fdba74' : '#f472b6';
+      ctx.fillText('C Y B E R P U N K   H Q', 0, 101);
+
+      // Bottom chevron underline
+      ctx.strokeStyle = isAlert ? '#ef4444' : '#ec4899';
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.moveTo(-14, 110);
+      ctx.lineTo(0, 117);
+      ctx.lineTo(14, 110);
+      ctx.stroke();
+
       ctx.restore();
 
     } else if (type === 'noc_map') {
-      ctx.fillStyle = isAlert ? '#1a060a' : '#051229';
+      // Latar belakang gelap dengan gradien cyberpunk biru-ungu
+      const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+      bgGrad.addColorStop(0, isAlert ? '#1a060a' : '#04091a');
+      bgGrad.addColorStop(0.5, isAlert ? '#240812' : '#09122e');
+      bgGrad.addColorStop(1, isAlert ? '#18050a' : '#120826');
+      ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, w, h);
 
-      ctx.strokeStyle = isAlert ? '#ef4444' : '#0ea5e9';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(6, 6, w - 12, h - 12);
+      // Grid halus + garis scanline cyberpunk
+      ctx.strokeStyle = isAlert ? 'rgba(239, 68, 68, 0.14)' : 'rgba(56, 189, 248, 0.14)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx <= w; gx += 24) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
+      }
+      for (let gy = 0; gy <= h; gy += 16) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
+      }
 
-      const cx = 155, cy = 128;
-      ctx.strokeStyle = isAlert ? 'rgba(248, 113, 113, 0.45)' : 'rgba(56, 189, 248, 0.45)';
-      ctx.lineWidth = 2;
-      [30, 55, 80].forEach(r => {
+      // Bingkai utama neon gradien cyan -> ungu -> magenta
+      const frameGrad = ctx.createLinearGradient(0, 0, w, h);
+      if (isAlert) {
+        frameGrad.addColorStop(0, '#ef4444');
+        frameGrad.addColorStop(0.5, '#f97316');
+        frameGrad.addColorStop(1, '#ec4899');
+      } else {
+        frameGrad.addColorStop(0, '#38bdf8');
+        frameGrad.addColorStop(0.5, '#a855f7');
+        frameGrad.addColorStop(1, '#ec4899');
+      }
+      ctx.strokeStyle = frameGrad;
+      ctx.lineWidth = 3.5;
+      ctx.strokeRect(8, 8, w - 16, h - 16);
+
+      // Sudut siku HUD cyberpunk
+      ctx.strokeStyle = isAlert ? '#fca5a5' : '#67e8f9';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(8, 28); ctx.lineTo(8, 8); ctx.lineTo(28, 8);
+      ctx.moveTo(w - 28, 8); ctx.lineTo(w - 8, 8); ctx.lineTo(w - 8, 28);
+      ctx.moveTo(8, h - 28); ctx.lineTo(8, h - 8); ctx.lineTo(28, h - 8);
+      ctx.moveTo(w - 28, h - 8); ctx.lineTo(w - 8, h - 8); ctx.lineTo(w - 8, h - 28);
+      ctx.stroke();
+
+      // Radar holografik cyberpunk
+      const cx = 148, cy = 128;
+      [28, 54, 80].forEach((r, idx) => {
+        ctx.strokeStyle = isAlert
+          ? 'rgba(248, 113, 113, 0.5)'
+          : (idx === 1 ? 'rgba(236, 72, 153, 0.55)' : 'rgba(56, 189, 248, 0.5)');
+        ctx.lineWidth = idx === 1 ? 2.2 : 1.5;
         ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
       });
 
+      // Garis silang radar + blip target neon
+      ctx.strokeStyle = 'rgba(168, 85, 247, 0.35)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(cx - 86, cy); ctx.lineTo(cx + 86, cy);
+      ctx.moveTo(cx, cy - 86); ctx.lineTo(cx, cy + 86);
+      ctx.stroke();
+
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate(time * 1.8);
-      ctx.strokeStyle = isAlert ? '#fca5a5' : '#7dd3fc';
+      ctx.rotate(time * 2.0);
+      ctx.shadowColor = isAlert ? '#ef4444' : '#38bdf8';
+      ctx.shadowBlur = 10;
+      ctx.strokeStyle = isAlert ? '#fca5a5' : '#67e8f9';
       ctx.lineWidth = 3;
       ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(80, 0); ctx.stroke();
       ctx.restore();
 
+      // Titik blip magenta & cyan berkedip di radar
+      ctx.fillStyle = isAlert ? '#fb923c' : '#f472b6';
+      ctx.beginPath(); ctx.arc(cx + 36, cy - 28, 3.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath(); ctx.arc(cx - 42, cy + 24, 3.5, 0, Math.PI * 2); ctx.fill();
+
+      // Batang telemetri cyberpunk neon cyan-magenta
       for (let i = 0; i < 6; i++) {
         const val = 55 + Math.sin(time * 2.5 + i * 1.3) * 45 + ((i * 29) % 80);
-        ctx.fillStyle = 'rgba(255,255,255,0.08)';
-        ctx.fillRect(275, 36 + i * 33, 200, 18);
-        ctx.fillStyle = isAlert ? (i % 2 === 0 ? '#ef4444' : '#f97316') : (i % 2 === 0 ? '#0284c7' : '#38bdf8');
-        ctx.fillRect(275, 36 + i * 33, val, 18);
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+        ctx.fillRect(268, 34 + i * 33, 212, 18);
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(268, 34 + i * 33, 212, 18);
+
+        const barGrad = ctx.createLinearGradient(268, 0, 480, 0);
+        if (isAlert) {
+          barGrad.addColorStop(0, '#ef4444');
+          barGrad.addColorStop(1, '#f97316');
+        } else if (i % 2 === 0) {
+          barGrad.addColorStop(0, '#0284c7');
+          barGrad.addColorStop(1, '#38bdf8');
+        } else {
+          barGrad.addColorStop(0, '#a855f7');
+          barGrad.addColorStop(1, '#ec4899');
+        }
+        ctx.fillStyle = barGrad;
+        ctx.fillRect(268, 34 + i * 33, val, 18);
+
+        // Glitch tip di ujung batang
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(268 + val - 3, 34 + i * 33, 3, 18);
       }
 
     } else if (type === 'telemetry') {
-      ctx.fillStyle = isAlert ? '#180509' : '#061530';
+      const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+      bgGrad.addColorStop(0, isAlert ? '#180509' : '#040b1c');
+      bgGrad.addColorStop(1, isAlert ? '#260710' : '#130724');
+      ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = isAlert ? '#f87171' : '#38bdf8';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(6, 6, w - 12, h - 12);
 
-      for (let k = 0; k < 3; k++) {
-        ctx.fillStyle = isAlert ? 'rgba(239, 68, 68, 0.2)' : 'rgba(56, 189, 248, 0.18)';
-        ctx.fillRect(26 + k * 158, 24, 142, 64);
-        ctx.fillStyle = isAlert ? '#fca5a5' : '#7dd3fc';
-        ctx.fillRect(38 + k * 158, 38, 65, 10);
-        ctx.fillStyle = '#ffffff';
-        const barW = 70 + Math.sin(time * 2 + k) * 35;
-        ctx.fillRect(38 + k * 158, 60, barW, 14);
+      // Scanline cyberpunk
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.05)';
+      for (let sy = 0; sy < h; sy += 6) {
+        ctx.fillRect(0, sy, w, 2);
       }
 
+      const frameGrad = ctx.createLinearGradient(0, 0, w, 0);
+      frameGrad.addColorStop(0, isAlert ? '#ef4444' : '#38bdf8');
+      frameGrad.addColorStop(0.5, isAlert ? '#f97316' : '#a855f7');
+      frameGrad.addColorStop(1, isAlert ? '#ec4899' : '#ec4899');
+      ctx.strokeStyle = frameGrad;
+      ctx.lineWidth = 3.5;
+      ctx.strokeRect(8, 8, w - 16, h - 16);
+
+      // Kartu modul HUD atas dengan aksen cyan & magenta
+      for (let k = 0; k < 3; k++) {
+        const kx = 24 + k * 158;
+        ctx.fillStyle = isAlert ? 'rgba(239, 68, 68, 0.16)' : (k === 1 ? 'rgba(236, 72, 153, 0.14)' : 'rgba(56, 189, 248, 0.14)');
+        ctx.fillRect(kx, 24, 144, 66);
+        ctx.strokeStyle = isAlert ? '#f87171' : (k === 1 ? '#f472b6' : '#38bdf8');
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(kx, 24, 144, 66);
+
+        ctx.fillStyle = isAlert ? '#fca5a5' : (k === 1 ? '#f9a8d4' : '#7dd3fc');
+        ctx.fillRect(kx + 12, 36, 68, 8);
+
+        const barW = 72 + Math.sin(time * 2.2 + k) * 34;
+        const modGrad = ctx.createLinearGradient(kx + 12, 0, kx + 132, 0);
+        modGrad.addColorStop(0, isAlert ? '#ef4444' : '#38bdf8');
+        modGrad.addColorStop(1, isAlert ? '#fb923c' : '#ec4899');
+        ctx.fillStyle = modGrad;
+        ctx.fillRect(kx + 12, 58, barW, 14);
+      }
+
+      // Gelombang ganda cyberpunk (Cyan utama + Magenta bayangan)
+      ctx.save();
+      ctx.shadowColor = isAlert ? '#ef4444' : '#ec4899';
+      ctx.shadowBlur = 10;
+      ctx.strokeStyle = isAlert ? '#fb923c' : '#ec4899';
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      for (let x = 24; x < w - 24; x += 6) {
+        const y = 172 + Math.cos(x * 0.045 - time * 3.2) * 28 + Math.sin(x * 0.08 + time * 2.0) * 12;
+        if (x === 24) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      ctx.shadowColor = isAlert ? '#fca5a5' : '#38bdf8';
+      ctx.shadowBlur = 12;
       ctx.strokeStyle = isAlert ? '#ef4444' : '#38bdf8';
       ctx.lineWidth = 3.5;
       ctx.beginPath();
@@ -1656,26 +2097,42 @@
         else ctx.lineTo(x, y);
       }
       ctx.stroke();
+      ctx.restore();
 
     } else if (type === 'vip_warm') {
-      ctx.fillStyle = '#1f150c';
+      const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+      bgGrad.addColorStop(0, '#140c1c');
+      bgGrad.addColorStop(1, '#1f120d');
+      ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = '#f59e0b';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(6, 6, w - 12, h - 12);
 
-      ctx.fillStyle = 'rgba(245, 158, 11, 0.22)';
+      const frameGrad = ctx.createLinearGradient(0, 0, w, h);
+      frameGrad.addColorStop(0, '#f59e0b');
+      frameGrad.addColorStop(0.5, '#ec4899');
+      frameGrad.addColorStop(1, '#38bdf8');
+      ctx.strokeStyle = frameGrad;
+      ctx.lineWidth = 3.5;
+      ctx.strokeRect(8, 8, w - 16, h - 16);
+
+      ctx.fillStyle = 'rgba(245, 158, 11, 0.14)';
       ctx.fillRect(28, 28, 210, 200);
+      ctx.strokeStyle = 'rgba(236, 72, 153, 0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(28, 28, 210, 200);
+
       for (let b = 0; b < 4; b++) {
         const bh = 60 + Math.sin(time * 1.5 + b) * 30 + b * 22;
-        ctx.fillStyle = '#fbbf24';
+        const barGrad = ctx.createLinearGradient(0, 210 - bh, 0, 210);
+        barGrad.addColorStop(0, b % 2 === 0 ? '#38bdf8' : '#f472b6');
+        barGrad.addColorStop(1, '#f59e0b');
+        ctx.fillStyle = barGrad;
         ctx.fillRect(48 + b * 44, 210 - bh, 28, bh);
       }
 
       ctx.fillStyle = '#fde68a';
       ctx.fillRect(264, 42, 195, 22);
-      ctx.fillStyle = 'rgba(255,255,255,0.65)';
       for (let r = 0; r < 5; r++) {
+        ctx.fillStyle = r % 2 === 0 ? 'rgba(56, 189, 248, 0.7)' : 'rgba(244, 114, 182, 0.65)';
         ctx.fillRect(264, 86 + r * 26, 175 - r * 14, 10);
       }
     }
@@ -1933,6 +2390,18 @@
     botGroup.add(headGroup);
     parent.add(botGroup);
 
+    if (isExecutive) {
+      const execHit = new THREE.Mesh(
+        new THREE.BoxGeometry(1.1, 2.2, 1.1),
+        new THREE.MeshBasicMaterial({ visible: false })
+      );
+      execHit.position.set(0, 0.9, 0);
+      execHit.userData.zoneKey = roomCode;
+      execHit.userData.execRole = roomCode;
+      botGroup.add(execHit);
+      roomClickTargets.push(execHit);
+    }
+
     const badgeEl = document.createElement('div');
     badgeEl.className = isExecutive
       ? 'absolute z-20 pointer-events-none px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-950/90 text-amber-200 border border-amber-400/70 shadow-lg whitespace-nowrap transition-opacity duration-200'
@@ -1989,6 +2458,7 @@
       homeRotY: rotY,
       restPos: restSpot,
       summonPos: null,
+      walkPath: [],
       execWaypoints,
       execWpIdx: 0,
       execPauseUntil: 0,
@@ -2365,33 +2835,29 @@
 
     addGlassPartition(bldg, 9.2, H - 0.15, 0.14, 16.4, H / 2 + 0.2, 8.35);
 
-    // 1. CENTRAL LOBBY & RECEPTION
+    // 1. CENTRAL LOBBY & RECEPTION (1 MEJA PANJANG + 2 KURSI + 1 AI AGEN LOBBY)
     const lobbyGroup = new THREE.Group();
     const logoTex = createAnimatedScreen('logo');
     addBox(lobbyGroup, 4.4, 2.1, 0.08, -0.6, 1.65, -4.18, new THREE.MeshBasicMaterial({ map: logoTex }), false);
 
-    const deskCurve = new THREE.Group();
-    deskCurve.position.set(-1.1, 0.25, -1.2);
     const whiteGlossMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.18, metalness: 0.15 });
     const neonStripMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0.3, 1.6, 2.5) });
+    const lobbyChairMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.5 });
+    const lobbyLegMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.65, roughness: 0.35 });
+    const lobbyScreenGlow = new THREE.MeshBasicMaterial({ color: new THREE.Color(0.35, 1.45, 2.2) });
 
-    for (let i = 0; i < 12; i++) {
-      const angle = -0.35 + (i / 11) * 1.65;
-      const r = 2.1;
-      const sx = Math.cos(angle) * r - 1.2;
-      const sz = Math.sin(angle) * r - 0.6;
-      const seg = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.92, 0.55), whiteGlossMat);
-      seg.position.set(sx, 0.46, sz);
-      seg.rotation.y = -angle;
-      seg.castShadow = true;
-      deskCurve.add(seg);
+    // 1 Meja Panjang Resepsionis Lobby
+    addBox(lobbyGroup, 3.2, 0.86, 0.85, -1.2, 0.68, -1.65, whiteGlossMat);
+    addBox(lobbyGroup, 3.24, 0.08, 0.89, -1.2, 0.35, -1.65, neonStripMat, false);
+    addBox(lobbyGroup, 0.56, 0.34, 0.04, -1.65, 1.28, -1.55, lobbyLegMat);
+    addBox(lobbyGroup, 0.52, 0.30, 0.02, -1.65, 1.28, -1.525, lobbyScreenGlow, false);
 
-      const strip = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.08, 0.57), neonStripMat);
-      strip.position.set(sx, 0.22, sz);
-      strip.rotation.y = -angle;
-      deskCurve.add(strip);
-    }
-    lobbyGroup.add(deskCurve);
+    // 2 Kursi di Belakang Meja Panjang Lobby
+    [-1.65, -0.65].forEach(cx => {
+      addBox(lobbyGroup, 0.46, 0.07, 0.46, cx, 0.44, -2.35, lobbyChairMat);
+      addBox(lobbyGroup, 0.42, 0.48, 0.07, cx, 0.68, -2.55, lobbyChairMat);
+      addBox(lobbyGroup, 0.08, 0.42, 0.08, cx, 0.22, -2.35, lobbyLegMat);
+    });
 
     addIndoorPlant(lobbyGroup, -3.3, 0.25, -3.7, 1.25);
     addIndoorPlant(lobbyGroup, 2.2, 0.25, -3.7, 1.25);
@@ -2893,11 +3359,27 @@
 
     bldg.add(decorGroup);
 
-    // 11. 43 AI AGENT ROBLOX ROBOTS (40 UTAMA + 3 AI SECURITY PATROL)
+    // 11. AI AGENT ROBLOX ROBOTS (TERMASUK 1 AI AGENT LOBBY NOTIFIKASI, INFORMASI & DATA REKAN BISNIS)
     const aiAgentsGroup = new THREE.Group();
 
     addRobloxRobotAgent(aiAgentsGroup, 18.95, 0.16, -6.2, -Math.PI / 2, "👑 SuperSEIYA (AI Owner)", 0xf59e0b, 0xfef08a, false, 'owner', true, false);
     addRobloxRobotAgent(aiAgentsGroup, 19.20, 0.16,  5.4, -Math.PI / 2, "💎 SuperPRICILIA (AI Komisaris)", 0xec4899, 0xf9a8d4, false, 'commissioner', true, false);
+
+    // 1 AI Agen di Lobby: Menangkap Notifikasi, Informasi & Menyimpan Data Pengguna Rekan Bisnis
+    addRobloxRobotAgent(
+      aiAgentsGroup,
+      -1.65,
+      0.16,
+      -2.35,
+      0,
+      "Lobby Notif, Info & Partner Data AI",
+      0x06b6d4,
+      0x67e8f9,
+      true,
+      'lobby',
+      false,
+      false
+    );
 
     // 3 AI Security Patrol di Pos Security
     const securitySeatsZ = [4.4, 5.8, 7.2];
@@ -3029,6 +3511,10 @@
     workspace: [
       "Optimasi Bill of Quantities (BoQ) 5D BIM & Value Engineering",
       "Kepatuhan Kontrak FIDIC Silver/Yellow Book & Audit Dokumen"
+    ],
+    lobby: [
+      "Sinkronisasi Notifikasi Real-Time & Arsip Database Pengguna Rekan Bisnis",
+      "Pencatatan Informasi Kunjungan, Verifikasi Akun & Status Aktivitas Mitra"
     ]
   };
 
@@ -3107,8 +3593,6 @@
       return;
     }
 
-    // Rekan Bisnis yang sudah login hanya mengakses database miliknya sendiri,
-    // sedangkan Owner & Komisaris melihat seluruh permintaan desain dari semua rekan bisnis & eksekutif.
     const roleScopedPackages = isPartner
       ? STORED_WORK_PACKAGES.filter(p => (p.partnerId && p.partnerId === partnerOwnerId) || (!p.partnerId && p.commander === partnerOwnerName))
       : STORED_WORK_PACKAGES;
@@ -3420,7 +3904,8 @@
       noc: `Analisis Rekayasa & Kalkulasi Teknis (${shortRole}): Telah merumuskan parameter desain, faktor keamanan SNI/IBC, integrasi sistem utilitas & struktur untuk "${promptText}".`,
       rnd: `Kajian Tata Ruang, K3 & Keberlanjutan (${shortRole}): Menyusun analisis tapak, efisiensi energi net-zero, mitigasi risiko K3 konstruksi, serta kepatuhan AMDAL untuk "${promptText}".`,
       visual3d: `Deliverable Model 3D & CAD (${shortRole}): Menghasilkan paket parametric BIM family, gambar kerja DED koordinat terpadu, dan visualisasi render fotorealistik untuk "${promptText}".`,
-      workspace: `Estimasi Biaya (BoQ) & Dokumen Kontrak (${shortRole}): Menyusun rekapitulasi volume pekerjaan (5D BIM), analisis harga satuan, dan klausul spesifikasi teknis untuk "${promptText}".`
+      workspace: `Estimasi Biaya (BoQ) & Dokumen Kontrak (${shortRole}): Menyusun rekapitulasi volume pekerjaan (5D BIM), analisis harga satuan, dan klausul spesifikasi teknis untuk "${promptText}".`,
+      lobby: `Pencatatan Notifikasi & Database Rekan Bisnis (${shortRole}): Mengarsipkan notifikasi proyek, informasi kunjungan, serta sinkronisasi data mitra untuk "${promptText}".`
     };
     const resultBody = roomOutputs[bot.roomCode] || `Hasil Analisis & Solusi Teknis (${shortRole}): Telah menyelesaikan kajian mendalam 20-tahun pengalaman untuk perintah "${promptText}".`;
 
@@ -3471,17 +3956,7 @@
     ].join("\n\n");
   }
 
-  function getRoleTagBadge(speaker) {
-    if (speaker.includes('Project Director') || speaker.includes('Manager')) return 'Koordinator';
-    if (speaker.includes('Architect')) return 'Lead Architect';
-    if (speaker.includes('BIM') || speaker.includes('CAD') || speaker.includes('3D')) return '3D BIM & CAD';
-    if (speaker.includes('Structural') || speaker.includes('Quantity') || speaker.includes('Estimator')) return 'Structural & RAB';
-    if (speaker.includes('SuperSEIYA') || speaker.includes('SuperPRICILIA')) return 'Eksekutif';
-    return 'Spesialis AI';
-  }
-
   function renderMeetingChatFeed() {
-    const feedEl = document.getElementById('meeting-chat-feed');
     const topicEl = document.getElementById('meeting-topic-label');
     const metaEl = document.getElementById('meeting-meta-label');
     const badgeEl = document.getElementById('meeting-review-badge');
@@ -3497,20 +3972,6 @@
       selectEl.options[0].textContent = `⏳ [${timeNow} WIB] ${lastExecutivePrompt.slice(0, 42)}... (v${meetingVersion})`;
     }
 
-    if (feedEl) {
-      feedEl.innerHTML = MEETING_CONVERSATIONS.slice(0, 20).map(msg => {
-        const badgeText = getRoleTagBadge(msg.speaker);
-        return `
-          <div class="p-3 rounded-xl bg-slate-900/85 border ${msg.isExecutive ? 'border-sky-400/50' : 'border-blue-500/30'}">
-            <div class="flex items-center justify-between gap-2 mb-1">
-              <span class="font-bold text-xs ${msg.isExecutive ? 'text-sky-300' : 'text-blue-200'}">${msg.speaker}</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-950/90 text-sky-300 border border-blue-500/35 shrink-0">${badgeText}</span>
-            </div>
-            <p class="text-slate-200 text-xs leading-relaxed">${msg.text}</p>
-          </div>
-        `;
-      }).join('');
-    }
     if (txtPreviewEl) {
       if (activeDocPreviewFormat === 'lsp') {
         txtPreviewEl.textContent = buildDynamicAutoLispScript();
@@ -3538,33 +3999,9 @@
     saveWorkPackageToDesignServer();
   }
 
-  function switchMeetingTab(tabName) {
-    const tabChat = document.getElementById('tab-meeting-chat');
-    const tabDoc = document.getElementById('tab-meeting-doc');
-    const feedEl = document.getElementById('meeting-chat-feed');
-    const docEl = document.getElementById('meeting-doc-panel');
-
-    if (tabName === 'doc') {
-      tabDoc?.classList.add('bg-blue-600', 'text-white', 'border-sky-400/50', 'shadow');
-      tabDoc?.classList.remove('bg-slate-900/80', 'text-blue-200');
-      tabChat?.classList.remove('bg-blue-600', 'text-white', 'border-sky-400/50', 'shadow');
-      tabChat?.classList.add('bg-slate-900/80', 'text-blue-200');
-      feedEl?.classList.add('hidden');
-      docEl?.classList.remove('hidden');
-    } else {
-      tabChat?.classList.add('bg-blue-600', 'text-white', 'border-sky-400/50', 'shadow');
-      tabChat?.classList.remove('bg-slate-900/80', 'text-blue-200');
-      tabDoc?.classList.remove('bg-blue-600', 'text-white', 'border-sky-400/50', 'shadow');
-      tabDoc?.classList.add('bg-slate-900/80', 'text-blue-200');
-      docEl?.classList.add('hidden');
-      feedEl?.classList.remove('hidden');
-    }
-  }
-
   function openMeetingChatModal() {
     const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
     if (!isExecutiveUser(session)) return;
-    switchMeetingTab('chat');
     renderMeetingChatFeed();
     const modal = document.getElementById('meeting-chat-modal');
     if (!modal) return;
@@ -3585,16 +4022,17 @@
     const agentA = specialists[Math.floor(Math.random() * specialists.length)];
     const agentB = specialists[Math.floor(Math.random() * specialists.length)];
     const line = COORDINATION_DIALOGS[Math.floor(Math.random() * COORDINATION_DIALOGS.length)];
-    showBotBubble(agentA, `💬 ${line}`, 'chain', 4.5);
+    showBotBubble(agentA, `💬 ${line}`, 'chain', 5.0);
     appendMeetingMessage(agentA, line, false);
     generateAgentPromptOutput(agentA, lastExecutivePrompt);
     if (agentB !== agentA) {
       const reply = `Konfirmasi diterima. Hasil prompt & kalkulasi teknis diperbarui ke dokumen hasil kerja.`;
+      // Jeda 5 detik antar AI agen saat diskusi
       setTimeout(() => {
-        showBotBubble(agentB, `🤝 ${reply}`, 'work', 4.0);
+        showBotBubble(agentB, `🤝 ${reply}`, 'work', 5.0);
         appendMeetingMessage(agentB, reply, false);
         generateAgentPromptOutput(agentB, lastExecutivePrompt);
-      }, 650);
+      }, 5000);
     }
   }
 
@@ -3611,7 +4049,7 @@
     URL.revokeObjectURL(url);
   }
 
-  function downloadDynamicAutoLispFile() {
+  function downloadAgentAutoLispFile() {
     const content = buildDynamicAutoLispScript();
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -3624,7 +4062,7 @@
     URL.revokeObjectURL(url);
   }
 
-  function downloadDynamicSketchUpFile() {
+  function downloadAgentSketchUpFile() {
     const content = buildDynamicSketchUpScript();
     const blob = new Blob([content], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
@@ -3637,69 +4075,715 @@
     URL.revokeObjectURL(url);
   }
 
+  function summonLeadsToExecutive(commanderName) {
+    const isPricilia = commanderName === 'SuperPRICILIA';
+    executiveSummonTarget = isPricilia ? 'commissioner' : 'owner';
+
+    const summonCoords = isPricilia
+      ? [new THREE.Vector3(16.9, 0.16, 4.9), new THREE.Vector3(16.9, 0.16, 6.0)]
+      : [new THREE.Vector3(16.6, 0.16, -5.6), new THREE.Vector3(16.6, 0.16, -6.8)];
+
+    const pdBot = animatedRobots.find(b => b.roleTitle.includes('Project Director Konstruksi'));
+    const pmBot = animatedRobots.find(b => b.roleTitle.includes('PM, Design, BIM'));
+
+    if (pdBot) {
+      pdBot.summonPos = summonCoords[0];
+      setBotDestinationSafe(pdBot, summonCoords[0]);
+      showBotBubble(pdBot, `🚶 Menuju Ruang ${isPricilia ? 'Komisaris' : 'Owner'}...`, 'chain', 5.0);
+    }
+    if (pmBot) {
+      pmBot.summonPos = summonCoords[1];
+      setBotDestinationSafe(pmBot, summonCoords[1]);
+      showBotBubble(pmBot, `🚶 Menghadap ${commanderName}...`, 'chain', 5.0);
+    }
+  }
+
+  function releaseExecutiveSummon() {
+    executiveSummonTarget = null;
+    animatedRobots.forEach(bot => {
+      if (bot.summonPos) {
+        bot.summonPos = null;
+        setBotDestinationSafe(bot, bot.homePos);
+      }
+    });
+  }
+
+  function showBotBubble(bot, text, styleType = 'research', durationSec = 5.0) {
+    if (!bot || !bot.cmdBubbleEl) return;
+    bot.cmdBubbleEl.textContent = text;
+    if (styleType === 'chain') {
+      bot.cmdBubbleEl.className = 'absolute z-20 pointer-events-none px-2 py-0.5 rounded-lg text-[9.5px] font-bold bg-amber-950/95 text-amber-200 border border-amber-400/70 shadow-lg whitespace-nowrap';
+    } else if (styleType === 'work') {
+      bot.cmdBubbleEl.className = 'absolute z-20 pointer-events-none px-2 py-0.5 rounded-lg text-[9.5px] font-semibold bg-blue-950/95 text-sky-200 border border-sky-400/70 shadow-lg whitespace-nowrap';
+    } else {
+      bot.cmdBubbleEl.className = 'absolute z-20 pointer-events-none px-2 py-0.5 rounded-lg text-[9px] font-medium bg-slate-900/90 text-cyan-200 border border-cyan-400/50 shadow-md whitespace-nowrap';
+    }
+    bot.commandActiveUntil = performance.now() + durationSec * 1000;
+  }
+
+  function recordToDesignVault(agentName, category, summaryText) {
+    const timeStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    DESIGN_VAULT_RECORDS.unshift({ time: timeStr, agent: agentName, category, summary: summaryText });
+    if (DESIGN_VAULT_RECORDS.length > 150) DESIGN_VAULT_RECORDS.pop();
+    savePersistedMindRecords(DESIGN_VAULT_RECORDS);
+
+    const statusEl = document.getElementById('autonomous-status-text');
+    if (statusEl) {
+      statusEl.textContent = `Vault Saved: ${agentName.split(' ')[0]} • ${category}`;
+    }
+
+    const modal = document.getElementById('agent-mind-modal');
+    if (modal && modal.classList.contains('opacity-100')) {
+      renderMindVaultList();
+    }
+  }
+
+  function renderMindVaultList() {
+    const listEl = document.getElementById('mind-history-list');
+    const selectEl = document.getElementById('mind-agent-select');
+    if (!listEl || !selectEl) return;
+
+    const filterVal = selectEl.value;
+    const filtered = filterVal === 'all_vault'
+      ? DESIGN_VAULT_RECORDS
+      : DESIGN_VAULT_RECORDS.filter(r => r.agent === filterVal);
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `<div class="p-3 rounded-xl bg-slate-900/70 border border-white/10 text-slate-400 text-center">Belum ada catatan pikiran untuk agen ini. Sistem sedang melakukan riset otomatis...</div>`;
+      return;
+    }
+
+    listEl.innerHTML = filtered.map(rec => {
+      const badgeCls = rec.category === 'Perintah Eksekutif'
+        ? 'bg-amber-500/20 text-amber-300 border-amber-400/40'
+        : (rec.category === 'Koordinasi Antar Agen'
+          ? 'bg-indigo-500/20 text-indigo-300 border-indigo-400/40'
+          : 'bg-cyan-500/20 text-cyan-300 border-cyan-400/40');
+      return `
+        <div class="p-2.5 rounded-xl bg-slate-900/85 border border-white/10 hover:border-cyan-400/40 transition">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <span class="font-bold text-white truncate">${rec.agent}</span>
+            <span class="text-[9px] px-1.5 py-0.5 rounded border ${badgeCls} shrink-0">${rec.category}</span>
+          </div>
+          <p class="text-slate-200 leading-relaxed">${rec.summary}</p>
+          <div class="mt-1 text-[9.5px] text-slate-400 flex items-center justify-between">
+            <span>🗄️ Design Server Vault</span>
+            <span>${rec.time} WIB</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function openMindVaultModal(agentRoleFilter = 'all_vault') {
+    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+    if (!isExecutiveUser(session)) return;
+    const modal = document.getElementById('agent-mind-modal');
+    const selectEl = document.getElementById('mind-agent-select');
+    if (!modal || !selectEl) return;
+
+    selectEl.value = agentRoleFilter;
+    renderMindVaultList();
+    modal.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+    modal.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+  }
+
+  function closeMindVaultModal() {
+    const modal = document.getElementById('agent-mind-modal');
+    if (!modal) return;
+    modal.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+    modal.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+  }
+
   function initAutonomousAgentIntelligence() {
     const selectEl = document.getElementById('mind-agent-select');
-    if (!selectEl) return;
-
-    animatedRobots.forEach((bot, index) => {
-      bot.agentId = `agent_${index}`;
-      bot.experienceYears = 20;
-      bot.mindMemory = [];
-
-      if (!bot.isExecutive && !bot.isSecurity) {
-        const topics = RESEARCH_TOPICS_BY_DISCIPLINE[bot.roomCode] || RESEARCH_TOPICS_BY_DISCIPLINE.noc;
-        const initialTopic = topics[index % topics.length];
-        const entry = {
-          time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-          type: 'Riset Mandiri (20 Thn Exp)',
-          note: `Kajian ${bot.roleTitle}: ${initialTopic}`
-        };
-        bot.mindMemory.push(entry);
-        DESIGN_VAULT_RECORDS.unshift({ agent: bot.roleTitle, ...entry });
-
+    if (selectEl) {
+      animatedRobots.forEach(bot => {
         const opt = document.createElement('option');
-        opt.value = bot.agentId;
-        opt.textContent = `🤖 ${bot.roleTitle} (20 Thn)`;
+        opt.value = bot.roleTitle;
+        opt.textContent = bot.roleTitle;
         selectEl.appendChild(opt);
+      });
+      selectEl.addEventListener('change', renderMindVaultList);
+    }
+
+    const ownerBot = animatedRobots.find(b => b.roleTitle.includes('SuperSEIYA'));
+    const pdBot = animatedRobots.find(b => b.roleTitle.includes('Project Director'));
+    const pmBot = animatedRobots.find(b => b.roleTitle.includes('PM, Design, BIM'));
+    const archBot = animatedRobots.find(b => b.roleTitle.includes('Lead Architect'));
+    const bimBot = animatedRobots.find(b => b.roleTitle.includes('Lead BIM'));
+    const lobbyBot = animatedRobots.find(b => b.roomCode === 'lobby');
+
+    if (MEETING_CONVERSATIONS.length === 0) {
+      appendMeetingMessage(ownerBot, "Pastikan seluruh tim rekayasa & BIM mempercepat penyelarasan desain untuk Gedung Perkantoran Modern (Target 30 Des 2026).", true);
+      appendMeetingMessage(pdBot, "Siap SuperSEIYA! Saya sudah menginstruksikan PM & seluruh spesialis 20-tahun pengalaman untuk sinkronisasi clash-free di Design Server.", false);
+      appendMeetingMessage(pmBot, "Notulen & timeline mingguan sudah di-update. Lead Architect & Lead BIM sedang melakukan integrasi fasad dan struktur.", false);
+      appendMeetingMessage(archBot, "Desain arsitektur & kurva curtain wall sudah kami kunci agar selaras dengan grid kolom utama.", false);
+      appendMeetingMessage(bimBot, "Model 3D BIM Level 350 bebas bentrokan (zero-clash) sudah terunggah ke Design Server Vault.", false);
+      if (lobbyBot) {
+        appendMeetingMessage(lobbyBot, "Sistem Lobby aktif: Menangkap seluruh notifikasi, informasi kunjungan, dan sinkronisasi database pengguna Rekan Bisnis.", false);
+      }
+    }
+
+    if (DESIGN_VAULT_RECORDS.length === 0) {
+      recordToDesignVault("Project Director Konstruksi", "Riset Pengalaman 20-Thn", "Inisialisasi standar mutu desain terpadu & protokol Design Server Vault aktif.");
+      recordToDesignVault("Lead Architect, Interior, Landscape & Facade Specialist", "Riset Pengalaman 20-Thn", "Kajian fasad hemat energi & tata ruang biofilik modern siap diaplikasikan.");
+      recordToDesignVault("Lobby Notif, Info & Partner Data AI", "Notifikasi & Data Mitra", "Database pengguna Rekan Bisnis & saluran notifikasi Lobby siap menangkap informasi real-time.");
+    }
+
+    setInterval(() => {
+      if (isAgentsResting) return;
+      const specialists = animatedRobots.filter(b => !b.isExecutive && !b.isSecurity);
+      if (specialists.length === 0) return;
+      const bot = specialists[Math.floor(Math.random() * specialists.length)];
+      const topics = RESEARCH_TOPICS_BY_DISCIPLINE[bot.roomCode] || RESEARCH_TOPICS_BY_DISCIPLINE.noc;
+      const topic = topics[Math.floor(Math.random() * topics.length)];
+
+      showBotBubble(bot, `🔬 Riset 20-Thn: ${topic.slice(0, 34)}...`, 'research', 4.8);
+      recordToDesignVault(bot.roleTitle, "Riset Pengalaman 20-Thn", `Mengembangkan riset & standar desain: "${topic}" dan menyimpannya ke Design Server Vault.`);
+    }, 6000);
+
+    setInterval(() => {
+      if (isAgentsResting) return;
+      const specialists = animatedRobots.filter(b => !b.isExecutive && !b.isSecurity);
+      if (specialists.length < 2) return;
+      const agentA = specialists[Math.floor(Math.random() * specialists.length)];
+      let agentB = specialists[Math.floor(Math.random() * specialists.length)];
+      if (agentA === agentB) agentB = specialists[(specialists.indexOf(agentA) + 1) % specialists.length];
+
+      const dialog = COORDINATION_DIALOGS[Math.floor(Math.random() * COORDINATION_DIALOGS.length)];
+      showBotBubble(agentA, `💬 ${dialog}`, 'chain', 5.0);
+      recordToDesignVault(
+        `${agentA.roleTitle.split(',')[0]} ↔ ${agentB.roleTitle.split(',')[0]}`,
+        "Koordinasi Antar Agen",
+        `Diskusi teknis & sinkronisasi hasil desain: "${dialog}" — Tersimpan di Design Server Vault.`
+      );
+      appendMeetingMessage(agentA, `${dialog} (Koordinasi dengan ${agentB.roleTitle.split(',')[0]})`, false);
+
+      // Jeda 5 detik sebelum agen lawan bicara menanggapi dalam diskusi
+      setTimeout(() => {
+        if (isAgentsResting) return;
+        const replyLine = `Siap ${agentA.roleTitle.split(',')[0]}, catatan sinkronisasi "${dialog}" sudah diverifikasi & dikunci di server.`;
+        showBotBubble(agentB, `🤝 ${replyLine.slice(0, 42)}...`, 'work', 5.0);
+        appendMeetingMessage(agentB, replyLine, false);
+      }, 5000);
+
+      if (!agentA.isSecurity && !agentA.summonPos) {
+        const destBot = agentB;
+        const safeOffset = new THREE.Vector3(
+          destBot.homePos.x + (Math.random() > 0.5 ? 0.55 : -0.55),
+          agentA.homePos.y,
+          destBot.homePos.z + (Math.random() > 0.5 ? 0.45 : -0.45)
+        );
+        agentA.coordTargetPos = safeOffset;
+        setBotDestinationSafe(agentA, safeOffset);
+        agentA.coordRoomLabel = destBot.roleTitle.split(',')[0];
+        agentA.coordChatUntil = performance.now() + 8500;
+      }
+    }, 10500);
+
+    // Patroli berkala untuk 3 AI Security Officer berkeliling ke setiap ruangan dengan jalur bebas dinding
+    const securityPatrolPoints = [
+      { pos: new THREE.Vector3(-1.0, 0.16, -0.5), label: "Lobby Utama" },
+      { pos: new THREE.Vector3(-6.5, 0.16,  5.8), label: "Rest Room VIP" },
+      { pos: new THREE.Vector3( 2.3, 0.16,  6.2), label: "Meeting Room" },
+      { pos: new THREE.Vector3( 8.9, 0.16,  3.2), label: "Manager Room" },
+      { pos: new THREE.Vector3(-9.8, 0.16, -1.2), label: "Administration Room" },
+      { pos: new THREE.Vector3(-5.8, 0.16, -7.2), label: "Engineering Room" },
+      { pos: new THREE.Vector3( 1.0, 0.16, -7.2), label: "3D Visual Room" },
+      { pos: new THREE.Vector3( 7.8, 0.16, -5.5), label: "Plannologi Room" },
+      { pos: new THREE.Vector3(-6.8, 0.16, -14.0), label: "Design Server Room" },
+      { pos: new THREE.Vector3(12.9, 0.16, -3.7), label: "Koridor Ruang Owner" },
+      { pos: new THREE.Vector3(12.9, 0.16,  2.3), label: "Koridor Ruang Komisaris" },
+      { pos: new THREE.Vector3(-11.4, 0.16, -7.2), label: "Pantry" }
+    ];
+    let patrolCycleIdx = 0;
+
+    setInterval(() => {
+      if (isAgentsResting) return;
+      const securityOfficers = animatedRobots.filter(b => b.isSecurity);
+      if (securityOfficers.length === 0) return;
+
+      const officer = securityOfficers[patrolCycleIdx % securityOfficers.length];
+      const targetSpot = securityPatrolPoints[patrolCycleIdx % securityPatrolPoints.length];
+      patrolCycleIdx++;
+
+      officer.patrolTargetPos = targetSpot.pos.clone();
+      setBotDestinationSafe(officer, targetSpot.pos);
+      officer.patrolRoomLabel = targetSpot.label;
+      officer.patrolInspectUntil = 0;
+      showBotBubble(officer, `🛡️ Patroli ke ${targetSpot.label}`, 'chain', 4.5);
+    }, 9500);
+  }
+
+  function executeExecutiveCommand(commander, commandText) {
+    const cleanCmd = commandText.trim();
+    if (!cleanCmd) return;
+
+    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+    const isPartnerRole = !!session && session.role === "Rekan Bisnis";
+    const effectiveSender = isPartnerRole ? (session.fullName || session.id) : commander;
+
+    if (isAgentsResting) {
+      isAgentsResting = false;
+      const restBtn = document.getElementById('btn-agents-rest');
+      const restLbl = document.getElementById('rest-label');
+      if (restLbl) restLbl.textContent = 'AI Istirahat';
+      if (restBtn) restBtn.classList.remove('!bg-emerald-600', '!border-emerald-400');
+    }
+
+    lastExecutivePrompt = cleanCmd;
+    activeMeetingTopic = cleanCmd;
+    meetingVersion = 1;
+    meetingReviewStatus = "⏳ Menunggu Pemeriksaan Owner / Komisaris";
+
+    const logBox = document.getElementById('executive-cmd-log');
+    const isPricilia = effectiveSender === 'SuperPRICILIA';
+    const isSuperSEIYA = effectiveSender === 'SuperSEIYA';
+    const senderBadgeColor = isSuperSEIYA ? 'text-amber-300' : (isPricilia ? 'text-pink-300' : 'text-emerald-300');
+    const targetZone = isPricilia ? 'commissioner' : 'owner';
+
+    const pdBot = animatedRobots.find(b => b.roleTitle.includes('Project Director Konstruksi'));
+    const pmBot = animatedRobots.find(b => b.roleTitle.includes('PM, Design, BIM'));
+    const execBot = animatedRobots.find(b => b.roleTitle.includes(isPricilia ? 'SuperPRICILIA' : 'SuperSEIYA'));
+    const lobbyBot = animatedRobots.find(b => b.roomCode === 'lobby');
+    const specialists = animatedRobots.filter(b => !b.isExecutive && !b.isSecurity && b !== pdBot && b !== pmBot);
+
+    if (lobbyBot) {
+      const lobbyNote = isPartnerRole
+        ? `📥 Data Mitra "${effectiveSender}" & Permintaan Desain dicatat di Lobby!`
+        : `🔔 Notifikasi Perintah "${effectiveSender}" dicatat di Lobby!`;
+      showBotBubble(lobbyBot, lobbyNote, 'chain', 5.0);
+      recordToDesignVault(
+        "Lobby Notif, Info & Partner Data AI",
+        isPartnerRole ? "Data Pengguna Rekan Bisnis" : "Notifikasi & Informasi",
+        `${isPartnerRole ? `Menyimpan data permintaan desain dari Rekan Bisnis (${effectiveSender})` : `Menangkap notifikasi perintah dari ${effectiveSender}`}: "${cleanCmd}".`
+      );
+    }
+
+    if (!isPartnerRole && execBot) {
+      showBotBubble(execBot, `📢 "${cleanCmd}"`, 'chain', 6.5);
+      focusOnZone(targetZone);
+    }
+
+    recordToDesignVault(effectiveSender, isPartnerRole ? "Permintaan Desain Rekan Bisnis" : "Perintah Eksekutif", `Instruksi Desain: "${cleanCmd}"`);
+    appendMeetingMessage(execBot || pdBot, isPartnerRole ? `Permintaan Desain Rekan Bisnis (${effectiveSender}): "${cleanCmd}"` : `Perintah Eksekutif: "${cleanCmd}"`, true);
+    generateAgentPromptOutput(pdBot, cleanCmd);
+
+    if (logBox) {
+      logBox.innerHTML = `
+        <span class="truncate"><strong class="${senderBadgeColor}">1. ${effectiveSender} → Project Director:</strong> "${cleanCmd}"</span>
+        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/40 shrink-0">DISPATCHED</span>
+      `;
+    }
+
+    setTimeout(() => {
+      if (pdBot) {
+        showBotBubble(pdBot, `✅ Siap ${effectiveSender}! Meneruskan ke PM...`, 'chain', 5.5);
+        appendMeetingMessage(pdBot, `Siap ${effectiveSender}! Perintah "${cleanCmd}" diterima dan diteruskan ke Project Manager.`, false);
+        generateAgentPromptOutput(pmBot, cleanCmd);
+        if (!isPartnerRole) focusOnZone('pod');
+      }
+      if (logBox) {
+        logBox.innerHTML = `
+          <span class="truncate"><strong class="text-sky-300">2. Project Director → Project Manager:</strong> Delegasi "${cleanCmd}"</span>
+          <span class="text-[9px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/40 shrink-0">DELEGATING</span>
+        `;
+      }
+    }, 1800);
+
+    setTimeout(() => {
+      if (pmBot) {
+        showBotBubble(pmBot, `📋 Membagi tugas ke seluruh AI Spesialis!`, 'chain', 5.5);
+        appendMeetingMessage(pmBot, `Seluruh tim AI Spesialis (Arsitektur, Struktur, MEP, Plannologi, 3D Visual, QS) mulai mengeksekusi: "${cleanCmd}".`, false);
+      }
+      specialists.forEach((bot, idx) => {
+        setTimeout(() => {
+          showBotBubble(bot, `⚙️ Mengerjakan: ${cleanCmd.slice(0, 26)}...`, 'work', 6.5);
+          generateAgentPromptOutput(bot, cleanCmd);
+        }, idx * 240);
+      });
+      if (logBox) {
+        logBox.innerHTML = `
+          <span class="truncate"><strong class="text-emerald-300">3. Seluruh Tim AI:</strong> Mengeksekusi "${cleanCmd}"</span>
+          <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 shrink-0">EXECUTING</span>
+        `;
+      }
+      releaseExecutiveSummon();
+      if (isPartnerRole) {
+        openDesignServerModal();
+      } else {
+        openMeetingChatModal();
+      }
+    }, 3600);
+  }
+
+  function createHotspotElements() {
+    const layer = document.getElementById('labels-layer');
+    HOTSPOTS.forEach(spot => {
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.dataset.spotId = spot.id;
+      el.className = 'hotspot-label glass-panel px-2 py-1 rounded-full flex items-center gap-1.5 text-[10.5px] font-medium text-white shadow-lg border border-sky-400/35';
+      el.innerHTML = `
+        <span class="w-1.5 h-1.5 rounded-full bg-sky-400 pulse-dot"></span>
+        <span>${spot.name}</span>
+      `;
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+        if (!isExecutiveUser(session) && !(session && session.role === "Rekan Bisnis" && spot.id === "design_vault")) return;
+        focusOnZone(spot.id);
+        if (spot.id === 'boardroom') {
+          openMeetingChatModal();
+        } else if (spot.id === 'design_vault') {
+          openDesignServerModal();
+        } else if (spot.id === 'commissioner') {
+          openCommissionerPartnerModal();
+        }
+      });
+      layer.appendChild(el);
+      spot.element = el;
+    });
+  }
+
+  function updateHotspotPositions() {
+    const container = document.getElementById('canvas-container');
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    if (!width || !height) return;
+
+    HOTSPOTS.forEach(spot => {
+      if (!spot.element) return;
+      if (!showLabels) {
+        spot.element.style.opacity = '0';
+        spot.element.style.pointerEvents = 'none';
+        return;
+      }
+
+      const proj = spot.pos.clone().project(camera);
+      if (proj.z > 1) {
+        spot.element.style.opacity = '0';
+        spot.element.style.pointerEvents = 'none';
+        return;
+      }
+
+      const x = (proj.x * 0.5 + 0.5) * width;
+      const y = (-(proj.y * 0.5) + 0.5) * height;
+
+      spot.element.style.left = `${x}px`;
+      spot.element.style.top = `${y}px`;
+      spot.element.style.opacity = '1';
+      spot.element.style.pointerEvents = 'auto';
+    });
+
+    const now = performance.now();
+    animatedRobots.forEach(bot => {
+      const headPos = new THREE.Vector3();
+      bot.group.getWorldPosition(headPos);
+      headPos.y += 1.65;
+
+      const proj = headPos.project(camera);
+      const visible = proj.z <= 1;
+      const sx = (proj.x * 0.5 + 0.5) * width;
+      const sy = (-(proj.y * 0.5) + 0.5) * height;
+
+      if (bot.badgeEl) {
+        bot.badgeEl.style.display = 'none';
+      }
+
+      if (bot.cmdBubbleEl) {
+        bot.cmdBubbleEl.style.display = 'none';
+      }
+    });
+  }
+
+  function buildAmbientLobbyParticles() {
+    const count = 42;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = -3.8 + Math.random() * 6.4;
+      positions[i * 3 + 1] = 0.5 + Math.random() * 2.4;
+      positions[i * 3 + 2] = -3.8 + Math.random() * 5.6;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const mat = new THREE.PointsMaterial({
+      color: 0x7dd3fc,
+      size: 0.09,
+      transparent: true,
+      opacity: 0.65
+    });
+    lobbyParticles = new THREE.Points(geo, mat);
+    scene.add(lobbyParticles);
+  }
+
+  function updateExecutiveSeatButtonsUI() {
+    const seatBox = document.getElementById('executive-seat-controls');
+    const ownerLbl = document.getElementById('owner-sit-label');
+    const commLbl = document.getElementById('comm-sit-label');
+    if (!seatBox) return;
+
+    const showControls = (activeZoneKey === 'owner' || activeZoneKey === 'commissioner');
+    seatBox.classList.toggle('hidden', !showControls);
+    seatBox.classList.toggle('flex', showControls);
+
+    if (ownerLbl) {
+      ownerLbl.textContent = isOwnerSeated ? 'Berdiri Owner' : 'Duduk Owner';
+    }
+    if (commLbl) {
+      commLbl.textContent = isCommSeated ? 'Berdiri Komisaris' : 'Duduk Komisaris';
+    }
+  }
+
+  function setExecutiveSeatedState(roleCode, seatedState) {
+    const bot = animatedRobots.find(b => b.isExecutive && b.roomCode === roleCode);
+    if (!bot) return;
+
+    if (roleCode === 'owner') isOwnerSeated = seatedState;
+    if (roleCode === 'commissioner') isCommSeated = seatedState;
+
+    bot.seated = seatedState;
+    if (seatedState) {
+      const chairPos = roleCode === 'owner'
+        ? new THREE.Vector3(19.05, 0.16, -6.2)
+        : new THREE.Vector3(19.30, 0.16, 5.4);
+      setBotDestinationSafe(bot, chairPos);
+      bot.targetChairPos = chairPos;
+      showBotBubble(bot, `🪑 Duduk di Kursi ${roleCode === 'owner' ? 'Owner' : 'Komisaris'}`, 'chain', 4.0);
+    } else {
+      bot.targetChairPos = null;
+      bot.legL.rotation.x = 0;
+      bot.legR.rotation.x = 0;
+      bot.legL.position.set(-0.10, 0.23, 0);
+      bot.legR.position.set( 0.10, 0.23, 0);
+      bot.armL.rotation.x = 0;
+      bot.armR.rotation.x = 0;
+      bot.armL.position.z = 0;
+      bot.armR.position.z = 0;
+      showBotBubble(bot, `🚶 Berdiri & Beraktivitas`, 'work', 4.0);
+    }
+    updateExecutiveSeatButtonsUI();
+  }
+
+  function focusOnZone(zoneKey) {
+    const zone = ZONES[zoneKey];
+    if (!zone) return;
+
+    activeZoneKey = zoneKey;
+    updateExecutiveSeatButtonsUI();
+
+    camTransition.targetPos.copy(zone.pos);
+    camTransition.targetLookAt.copy(zone.lookAt);
+    camTransition.targetZoom = zone.zoom;
+    camTransition.active = true;
+  }
+
+  function toggleAgentsRestMode() {
+    isAgentsResting = !isAgentsResting;
+    const restBtn = document.getElementById('btn-agents-rest');
+    const restLbl = document.getElementById('rest-label');
+
+    if (isAgentsResting) {
+      releaseExecutiveSummon();
+      if (restLbl) restLbl.textContent = 'AI Kembali Bekerja';
+      if (restBtn) restBtn.classList.add('!bg-emerald-600', '!border-emerald-400');
+      focusOnZone('vip');
+      animatedRobots.forEach(bot => {
+        if (!bot.isExecutive) {
+          setBotDestinationSafe(bot, bot.restPos);
+          showBotBubble(bot, '☕ Menuju Rest Room...', 'work', 4.5);
+        }
+      });
+    } else {
+      if (restLbl) restLbl.textContent = 'AI Istirahat';
+      if (restBtn) restBtn.classList.remove('!bg-emerald-600', '!border-emerald-400');
+      focusOnZone('overview');
+      animatedRobots.forEach(bot => {
+        if (!bot.isExecutive) {
+          setBotDestinationSafe(bot, bot.homePos);
+          showBotBubble(bot, '💼 Kembali ke Meja Kerja!', 'chain', 4.0);
+        }
+      });
+    }
+  }
+
+  function setLightingMood(mood) {
+    currentMood = mood;
+    const container = document.getElementById('canvas-container');
+
+    document.querySelectorAll('.mood-btn').forEach(btn => {
+      if (btn.dataset.mood === mood) {
+        btn.classList.add('bg-blue-600/80', 'text-white');
+        btn.classList.remove('text-slate-300');
+      } else {
+        btn.classList.remove('bg-blue-600/80', 'text-white');
+        btn.classList.add('text-slate-300');
       }
     });
 
-    document.getElementById('btn-open-mind-vault')?.addEventListener('click', () => {
+    if (mood === 'night') {
+      container.style.background = 'radial-gradient(circle at 50% 45%, #0d1930 0%, #050914 78%)';
+      scene.fog.color.setHex(0x050914);
+      hemiLight.color.setHex(0x4a6fa5);
+      hemiLight.intensity = 0.28;
+      dirLight.color.setHex(0xcbd5e1);
+      dirLight.intensity = 0.42;
+      bloomPass.strength = 0.28;
+    } else if (mood === 'day') {
+      container.style.background = 'radial-gradient(circle at 50% 35%, #254b80 0%, #0f2342 85%)';
+      scene.fog.color.setHex(0x16325c);
+      hemiLight.color.setHex(0xe0f2fe);
+      hemiLight.intensity = 0.72;
+      dirLight.color.setHex(0xfffbeb);
+      dirLight.intensity = 0.92;
+      bloomPass.strength = 0.16;
+    } else if (mood === 'alert') {
+      container.style.background = 'radial-gradient(circle at 50% 45%, #2b090e 0%, #090306 80%)';
+      scene.fog.color.setHex(0x140407);
+      hemiLight.color.setHex(0xf87171);
+      hemiLight.intensity = 0.35;
+      dirLight.color.setHex(0xfca5a5);
+      dirLight.intensity = 0.42;
+      bloomPass.strength = 0.38;
+    }
+
+    dynamicCanvases.forEach(scr => updateSingleScreenCanvas(scr, threeClock.getElapsedTime()));
+  }
+
+  function setupInteractionEvents() {
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let pointerDownPos = { x: 0, y: 0 };
+
+    const domEl = renderer.domElement;
+
+    domEl.addEventListener('pointerdown', (e) => {
+      pointerDownPos = { x: e.clientX, y: e.clientY };
+    });
+
+    domEl.addEventListener('pointerup', (e) => {
+      const dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
+      if (dist > 6) return;
+
       const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-      if (!session) return;
-      renderMindHistory('all_vault');
-      const modal = document.getElementById('agent-mind-modal');
-      modal.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
-      modal.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+
+      const rect = domEl.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(roomClickTargets, false);
+      if (hits.length > 0 && hits[0].object.userData.zoneKey) {
+        const zKey = hits[0].object.userData.zoneKey;
+        if (!isExecutiveUser(session) && !(session && session.role === "Rekan Bisnis" && zKey === "design_vault")) return;
+        focusOnZone(zKey);
+        if (zKey === 'boardroom') {
+          openMeetingChatModal();
+        } else if (zKey === 'design_vault') {
+          openDesignServerModal();
+        } else if (zKey === 'commissioner' && !hits[0].object.userData.execRole) {
+          openCommissionerPartnerModal();
+        }
+      }
     });
 
-    document.getElementById('btn-close-mind-modal')?.addEventListener('click', () => {
-      const modal = document.getElementById('agent-mind-modal');
-      modal.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
-      modal.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+    domEl.addEventListener('pointermove', (e) => {
+      const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+      const rect = domEl.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(roomClickTargets, false);
+      if (hits.length > 0) {
+        const zKey = hits[0].object.userData.zoneKey;
+        const allowed = isExecutiveUser(session) || (session && session.role === "Rekan Bisnis" && zKey === "design_vault");
+        domEl.style.cursor = allowed ? 'pointer' : 'grab';
+      } else {
+        domEl.style.cursor = 'grab';
+      }
     });
 
-    document.getElementById('btn-close-design-server')?.addEventListener('click', closeDesignServerModal);
-    document.getElementById('server-vault-search')?.addEventListener('input', renderDesignServerRoom);
-    document.querySelectorAll('.srv-preview-tab').forEach(btn => {
+    document.getElementById('btn-toggle-owner-sit')?.addEventListener('click', () => {
+      setExecutiveSeatedState('owner', !isOwnerSeated);
+    });
+
+    document.getElementById('btn-toggle-comm-sit')?.addEventListener('click', () => {
+      setExecutiveSeatedState('commissioner', !isCommSeated);
+    });
+
+    document.getElementById('btn-agents-rest')?.addEventListener('click', toggleAgentsRestMode);
+
+    document.getElementById('btn-toggle-labels').addEventListener('click', () => {
+      showLabels = !showLabels;
+      const dot = document.getElementById('label-dot');
+      dot.className = showLabels ? 'w-2 h-2 rounded-full bg-sky-400' : 'w-2 h-2 rounded-full bg-slate-500';
+      updateHotspotPositions();
+    });
+
+    document.getElementById('btn-reset-cam').addEventListener('click', () => {
+      focusOnZone('overview');
+    });
+
+    document.querySelectorAll('[data-act]').forEach(btn => {
       btn.addEventListener('click', () => {
-        activeServerPreviewFormat = btn.dataset.srvTab || 'txt';
-        document.querySelectorAll('.srv-preview-tab').forEach(b => {
-          b.classList.remove('bg-blue-600', 'text-white');
-          b.classList.add('bg-slate-900', 'text-blue-200', 'border', 'border-blue-500/30');
-        });
-        btn.classList.add('bg-blue-600', 'text-white');
-        btn.classList.remove('bg-slate-900', 'text-blue-200', 'border', 'border-blue-500/30');
-        renderDesignServerRoom();
+        const act = btn.dataset.act;
+        if (act === 'in') {
+          camTransition.active = false;
+          camera.zoom = Math.min(3.8, camera.zoom * 1.2);
+          camera.updateProjectionMatrix();
+        } else if (act === 'out') {
+          camTransition.active = false;
+          camera.zoom = Math.max(0.65, camera.zoom / 1.2);
+          camera.updateProjectionMatrix();
+        } else if (act === 'full') {
+          const panel = document.getElementById('control');
+          if (!document.fullscreenElement) {
+            panel.requestFullscreen?.().catch(() => {});
+          } else {
+            document.exitFullscreen?.();
+          }
+        }
       });
     });
-    document.getElementById('btn-srv-dl-txt')?.addEventListener('click', () => downloadDesignServerPackage(selectedVaultPackageId, 'txt'));
-    document.getElementById('btn-srv-dl-lsp')?.addEventListener('click', () => downloadDesignServerPackage(selectedVaultPackageId, 'lsp'));
-    document.getElementById('btn-srv-dl-skp')?.addEventListener('click', () => downloadDesignServerPackage(selectedVaultPackageId, 'skp'));
 
+    document.querySelectorAll('.mood-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLightingMood(btn.dataset.mood));
+    });
+
+    const cmdInputEl = document.getElementById('executive-cmd-input');
+    cmdInputEl?.addEventListener('focus', () => {
+      const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+      if (!isExecutiveUser(session)) return;
+      summonLeadsToExecutive(selectedCommander);
+    });
+    cmdInputEl?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        document.getElementById('executive-cmd-form')?.requestSubmit();
+      }
+    });
+
+    document.getElementById('executive-cmd-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('executive-cmd-input');
+      if (!input || !input.value.trim()) return;
+      executeExecutiveCommand(selectedCommander, input.value);
+      input.value = '';
+    });
+
+    document.getElementById('btn-open-mind-vault')?.addEventListener('click', () => {
+      openMindVaultModal('all_vault');
+    });
+
+    document.getElementById('btn-close-mind-modal')?.addEventListener('click', closeMindVaultModal);
+    document.getElementById('btn-close-meeting-modal')?.addEventListener('click', closeMeetingChatModal);
+    document.getElementById('btn-close-design-server')?.addEventListener('click', closeDesignServerModal);
     document.getElementById('btn-close-comm-partner-modal')?.addEventListener('click', closeCommissionerPartnerModal);
     document.getElementById('btn-cancel-comm-partner')?.addEventListener('click', closeCommissionerPartnerModal);
-    document.getElementById('comm-add-partner-form')?.addEventListener('submit', e => {
+
+    document.getElementById('comm-add-partner-form')?.addEventListener('submit', (e) => {
       e.preventDefault();
       const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
       if (!isExecutiveUser(session)) return;
@@ -3716,9 +4800,9 @@
       }
 
       const partners = getStoredPartners();
-      const activeCount = partners.filter(p => p.verified && !p.closedByExecutive).length;
+      const activeCount = partners.filter(p => !p.closedByExecutive).length;
       if (activeCount >= MAX_ACTIVE_PARTNERS) {
-        msgEl.textContent = "Batas maksimal 50 akun Rekan Bisnis telah tercapai.";
+        msgEl.textContent = "Kuota maksimal 50 akun Rekan Bisnis telah penuh.";
         msgEl.className = "text-xs text-red-400";
         return;
       }
@@ -3744,1385 +4828,526 @@
       renderExecutiveSenderButtons(session);
       syncCommanderWithUser(session);
 
-      msgEl.textContent = `Rekan Bisnis "${fullName}" berhasil ditambahkan ke database Dashboard!`;
+      msgEl.textContent = `Rekan Bisnis "${fullName}" berhasil ditambahkan & langsung aktif di Dashboard!`;
       msgEl.className = "text-xs text-emerald-400";
-      document.getElementById('comm-add-partner-form').reset();
+      document.getElementById('comm-add-partner-form')?.reset();
     });
 
-    document.getElementById('btn-close-meeting-modal')?.addEventListener('click', closeMeetingChatModal);
-    document.getElementById('tab-meeting-chat')?.addEventListener('click', () => switchMeetingTab('chat'));
-    document.getElementById('tab-meeting-doc')?.addEventListener('click', () => switchMeetingTab('doc'));
-    document.querySelectorAll('.doc-format-tab').forEach(btn => {
+    document.getElementById('server-vault-search')?.addEventListener('input', renderDesignServerRoom);
+    document.querySelectorAll('.srv-preview-tab').forEach(btn => {
       btn.addEventListener('click', () => {
-        activeDocPreviewFormat = btn.dataset.docTab || 'txt';
-        document.querySelectorAll('.doc-format-tab').forEach(b => {
-          b.classList.remove('bg-blue-600', 'text-white');
-          b.classList.add('bg-slate-900', 'text-blue-200', 'border', 'border-blue-500/30');
+        activeServerPreviewFormat = btn.dataset.srvTab || 'txt';
+        document.querySelectorAll('.srv-preview-tab').forEach(b => {
+          b.className = 'srv-preview-tab px-2 py-0.5 rounded bg-slate-900 text-blue-200 border border-blue-500/30 text-[10px] font-semibold';
         });
-        btn.classList.add('bg-blue-600', 'text-white');
-        btn.classList.remove('bg-slate-900', 'text-blue-200', 'border', 'border-blue-500/30');
-        renderMeetingChatFeed();
+        btn.className = 'srv-preview-tab px-2 py-0.5 rounded bg-blue-600 text-white text-[10px] font-semibold';
+        renderDesignServerRoom();
       });
+    });
+
+    document.getElementById('btn-srv-dl-txt')?.addEventListener('click', () => {
+      if (selectedVaultPackageId) window.downloadDesignServerPackage(selectedVaultPackageId, 'txt');
+    });
+    document.getElementById('btn-srv-dl-lsp')?.addEventListener('click', () => {
+      if (selectedVaultPackageId) window.downloadDesignServerPackage(selectedVaultPackageId, 'lsp');
+    });
+    document.getElementById('btn-srv-dl-skp')?.addEventListener('click', () => {
+      if (selectedVaultPackageId) window.downloadDesignServerPackage(selectedVaultPackageId, 'skp');
     });
     document.getElementById('btn-trigger-meeting-turn')?.addEventListener('click', triggerMeetingDialogueTurn);
     document.getElementById('btn-download-agent-txt')?.addEventListener('click', () => {
-      document.getElementById('download-dropdown-menu')?.classList.add('hidden');
       downloadAgentTxtFile();
+      document.getElementById('download-dropdown-menu')?.classList.add('hidden');
     });
 
-    const dlDropBtn = document.getElementById('btn-download-dropdown');
-    const dlDropMenu = document.getElementById('download-dropdown-menu');
-    dlDropBtn?.addEventListener('click', e => {
+    document.querySelectorAll('.doc-format-tab').forEach(tabBtn => {
+      tabBtn.addEventListener('click', () => {
+        activeDocPreviewFormat = tabBtn.dataset.docTab || 'txt';
+        document.querySelectorAll('.doc-format-tab').forEach(b => {
+          b.className = 'doc-format-tab px-2.5 py-0.5 rounded-md bg-slate-900 text-blue-200 border border-blue-500/30 text-[10px]';
+        });
+        tabBtn.className = 'doc-format-tab px-2.5 py-0.5 rounded-md bg-blue-600 text-white text-[10px]';
+        renderMeetingChatFeed();
+      });
+    });
+
+    document.getElementById('btn-download-dropdown')?.addEventListener('click', (e) => {
       e.stopPropagation();
-      dlDropMenu?.classList.toggle('hidden');
+      document.getElementById('download-dropdown-menu')?.classList.toggle('hidden');
     });
-    document.addEventListener('click', () => dlDropMenu?.classList.add('hidden'));
 
-    document.querySelectorAll('.sim-download-opt').forEach(opt => {
-      opt.addEventListener('click', e => {
-        e.stopPropagation();
-        dlDropMenu?.classList.add('hidden');
-        const fmt = opt.dataset.simFormat;
-        const toast = document.getElementById('download-sim-toast');
-        const toastText = document.getElementById('download-sim-text');
+    document.querySelectorAll('.sim-download-opt').forEach(optBtn => {
+      optBtn.addEventListener('click', () => {
+        const fmt = optBtn.dataset.simFormat;
+        const toastEl = document.getElementById('download-sim-toast');
+        const textEl = document.getElementById('download-sim-text');
+        document.getElementById('download-dropdown-menu')?.classList.add('hidden');
+
         if (fmt === 'autolisp') {
-          downloadDynamicAutoLispFile();
-          if (toast && toastText) {
-            toastText.textContent = `✅ File AutoLISP (.lsp) v${meetingVersion} sesuai perintah "${lastExecutivePrompt.slice(0, 35)}..." berhasil diunduh!`;
-            toast.classList.remove('hidden');
+          downloadAgentAutoLispFile();
+          if (toastEl && textEl) {
+            textEl.textContent = `📐 AutoLISP (seiya_desain_v${meetingVersion}.lsp) berhasil dibuat oleh AI & diunduh! Jalankan di AutoCAD via APPLOAD -> ketik SEIYA_BUILD.`;
+            toastEl.classList.remove('hidden');
           }
           return;
         }
+
         if (fmt === 'skp') {
-          downloadDynamicSketchUpFile();
-          if (toast && toastText) {
-            toastText.textContent = `✅ File 3D SketchUp (.skp) v${meetingVersion} sesuai perintah "${lastExecutivePrompt.slice(0, 35)}..." berhasil diunduh!`;
-            toast.classList.remove('hidden');
+          downloadAgentSketchUpFile();
+          if (toastEl && textEl) {
+            textEl.textContent = `🏢 File 3D SketchUp (seiya_model3d_v${meetingVersion}.skp) berhasil dibuat oleh AI & diunduh!`;
+            toastEl.classList.remove('hidden');
           }
           return;
         }
-        const labels = {
-          xls: `📊 Simulasi Unduhan File Excel RAB (RAB_Proyek_v${meetingVersion}.xls) siap diunduh.`
+
+        const labelMap = {
+          xls: '📊 Excel RAB & BoQ 5D BIM (rab_proyek_v' + meetingVersion + '.xls)'
         };
-        if (toast && toastText) {
-          toastText.textContent = labels[fmt] || 'Simulasi unduhan file selesai.';
-          toast.classList.remove('hidden');
+        if (toastEl && textEl) {
+          textEl.textContent = `Simulasi Unduhan: File ${labelMap[fmt] || fmt} telah disiapkan oleh tim AI.`;
+          toastEl.classList.remove('hidden');
         }
       });
+    });
+
+    document.addEventListener('click', (e) => {
+      const wrap = document.getElementById('download-dropdown-wrapper');
+      if (wrap && !wrap.contains(e.target)) {
+        document.getElementById('download-dropdown-menu')?.classList.add('hidden');
+      }
     });
 
     document.getElementById('btn-approve-meeting-work')?.addEventListener('click', () => {
-      const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-      if (!isExecutiveUser(session)) return;
       meetingReviewStatus = "✅ Disetujui oleh Owner / Komisaris";
-      const pmBot = animatedRobots.find(b => b.roleTitle.includes("Project Manager")) || animatedRobots.find(b => !b.isExecutive);
-      appendMeetingMessage(pmBot, `Terima kasih. Dokumen hasil kerja versi v${meetingVersion} telah disetujui secara resmi dan dikunci di Design Server Vault.`, true);
+      const execBot = animatedRobots.find(b => b.roleTitle.includes(selectedCommander));
+      appendMeetingMessage(execBot || animatedRobots[0], `Hasil kerja v${meetingVersion} untuk "${lastExecutivePrompt}" telah diperiksa dan DISETUJUI.`, true);
+      recordToDesignVault(selectedCommander, "Persetujuan Hasil Kerja", `Menyetujui paket hasil kerja tim AI versi v${meetingVersion}.`);
+      saveWorkPackageToDesignServer();
     });
 
     document.getElementById('btn-request-revision')?.addEventListener('click', () => {
-      const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-      if (!isExecutiveUser(session)) return;
       const revInput = document.getElementById('meeting-revision-input');
-      const revNote = revInput?.value.trim();
-      if (!revNote) return;
+      const note = revInput ? revInput.value.trim() : '';
+      if (!note) return;
 
       meetingVersion += 1;
-      meetingReviewStatus = `🔄 Revisi Aktif (v${meetingVersion}) — Diproses Tim AI`;
-      const execBot = animatedRobots.find(b => b.roleTitle.includes(selectedCommander)) || animatedRobots.find(b => b.isExecutive);
-      appendMeetingMessage(execBot, `Catatan Revisi (${selectedCommander}): "${revNote}"`, true);
+      meetingReviewStatus = `🔄 Revisi v${meetingVersion} Sedang Dikerjakan Tim AI`;
+      const execBot = animatedRobots.find(b => b.roleTitle.includes(selectedCommander));
+      const pdBot = animatedRobots.find(b => b.roleTitle.includes('Project Director'));
+      const qsBot = animatedRobots.find(b => b.roleTitle.includes('Quantity Surveyor'));
 
-      const qsBot = animatedRobots.find(b => b.roleTitle.includes("Quantity Surveyor") || b.roleTitle.includes("Project Director")) || animatedRobots.find(b => !b.isExecutive);
-      setTimeout(() => {
-        const revReply = `Siap laksanakan revisi v${meetingVersion}: "${revNote}". Seluruh parameter teknis, RAB, dan spesifikasi telah disesuaikan.`;
-        appendMeetingMessage(qsBot, revReply, false);
-        generateAgentPromptOutput(qsBot, `Revisi v${meetingVersion}: ${revNote}`);
-        meetingReviewStatus = `⏳ Menunggu Pemeriksaan Owner / Komisaris (v${meetingVersion})`;
-        renderMeetingChatFeed();
-      }, 600);
-
-      revInput.value = '';
-    });
-
-    const seedSpecialists = animatedRobots.filter(b => !b.isExecutive && !b.isSecurity);
-    if (seedSpecialists.length >= 2) {
-      appendMeetingMessage(seedSpecialists[0], "Seluruh tim 38 AI Agen spesialis siap menerima arahan eksekutif dan menyusun dokumen hasil kerja.", false);
-      generateAgentPromptOutput(seedSpecialists[0], lastExecutivePrompt);
-      generateAgentPromptOutput(seedSpecialists[1], lastExecutivePrompt);
-    }
-
-    selectEl.addEventListener('change', (e) => {
-      renderMindHistory(e.target.value);
-    });
-
-    setInterval(runAutonomousAgentCycle, 3400);
-  }
-
-  function renderMindHistory(filterAgentId) {
-    const listEl = document.getElementById('mind-history-list');
-    const titleEl = document.getElementById('mind-modal-title');
-    if (!listEl) return;
-
-    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-    const isPartner = !!session && session.role === "Rekan Bisnis";
-    const partnerOwnerId = isPartner ? session.id : null;
-    const partnerOwnerName = isPartner ? (session.fullName || session.id) : null;
-
-    let records = [];
-    if (filterAgentId === 'all_vault') {
-      titleEl.textContent = isPartner
-        ? `Arsip Permintaan Desain Anda (${partnerOwnerName})`
-        : 'Design Server Vault (Arsip Terpusat)';
-      records = isPartner
-        ? DESIGN_VAULT_RECORDS.filter(r => (r.partnerId && r.partnerId === partnerOwnerId) || (!r.partnerId && r.commander === partnerOwnerName))
-        : DESIGN_VAULT_RECORDS;
-    } else {
-      const bot = animatedRobots.find(b => b.agentId === filterAgentId);
-      titleEl.textContent = bot ? `Memori AI: ${bot.roleTitle}` : 'Riwayat Pikiran AI';
-      const rawMem = bot ? bot.mindMemory : [];
-      records = isPartner
-        ? rawMem.filter(r => (r.partnerId && r.partnerId === partnerOwnerId) || (!r.partnerId && r.commander === partnerOwnerName))
-        : rawMem;
-    }
-
-    if (records.length === 0) {
-      listEl.innerHTML = `<div class="p-2.5 rounded-xl bg-slate-950/75 border border-cyan-500/20 text-slate-300 text-center">Belum ada riwayat permintaan desain untuk akun Anda.</div>`;
-      return;
-    }
-
-    listEl.innerHTML = records.slice(0, 25).map(rec => `
-      <div class="p-2.5 rounded-xl bg-slate-950/75 border border-cyan-500/20">
-        <div class="flex items-center justify-between text-[9.5px] text-cyan-300 font-semibold mb-0.5">
-          <span>${rec.type}</span>
-          <span class="text-slate-400">${rec.time}</span>
-        </div>
-        ${rec.agent ? `<div class="text-[10px] font-bold text-amber-200 mb-0.5">${rec.agent}</div>` : ''}
-        <p class="text-slate-200 leading-snug">${rec.note}</p>
-      </div>
-    `).join('');
-  }
-
-  function runAutonomousAgentCycle() {
-    if (!is3DInitialized || isAgentsResting) return;
-    const specialists = animatedRobots.filter(b => !b.isExecutive && !b.isSecurity);
-    if (specialists.length < 2) return;
-
-    const nowSec = performance.now() / 1000;
-    const isCoordinationTurn = Math.random() < 0.55;
-
-    if (isCoordinationTurn) {
-      const agentA = specialists[Math.floor(Math.random() * specialists.length)];
-      let agentB = specialists[Math.floor(Math.random() * specialists.length)];
-      if (agentA === agentB) agentB = specialists[(specialists.indexOf(agentA) + 1) % specialists.length];
-
-      const dialog = COORDINATION_DIALOGS[Math.floor(Math.random() * COORDINATION_DIALOGS.length)];
-      const timeStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-
-      const memA = {
-        time: timeStr,
-        type: 'Koordinasi Lintas Disiplin',
-        note: `Berdiskusi dengan ${agentB.roleTitle}: "${dialog}"`
-      };
-      agentA.mindMemory.unshift(memA);
-      DESIGN_VAULT_RECORDS.unshift({ agent: agentA.roleTitle, ...memA });
-
-      if (agentA.commandActiveUntil < nowSec) {
-        showBotBubble(agentA, `💬 ${dialog}`, 'chain', 3.1);
-      }
-
-      const statusEl = document.getElementById('autonomous-status-text');
-      if (statusEl) {
-        const shortA = agentA.roleTitle.split('(')[0].trim();
-        const shortB = agentB.roleTitle.split('(')[0].trim();
-        statusEl.textContent = `${shortA} ↔ ${shortB}: Sinkronisasi & Simpan ke Server`;
-      }
-    } else {
-      const researcher = specialists[Math.floor(Math.random() * specialists.length)];
-      const topics = RESEARCH_TOPICS_BY_DISCIPLINE[researcher.roomCode] || RESEARCH_TOPICS_BY_DISCIPLINE.noc;
-      const topic = topics[Math.floor(Math.random() * topics.length)];
-      const timeStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-
-      const memR = {
-        time: timeStr,
-        type: 'Riset Mandiri & Design Vault',
-        note: `Riset & simpan modul "${topic}" ke Design Server Room.`
-      };
-      researcher.mindMemory.unshift(memR);
-      DESIGN_VAULT_RECORDS.unshift({ agent: researcher.roleTitle, ...memR });
-
-      if (researcher.commandActiveUntil < nowSec) {
-        showBotBubble(researcher, `🔬 Riset: ${topic.slice(0, 32)}...`, 'work', 3.2);
-      }
-
-      const statusEl = document.getElementById('autonomous-status-text');
-      if (statusEl) {
-        const shortR = researcher.roleTitle.split('(')[0].trim();
-        statusEl.textContent = `${shortR} menyimpan hasil riset ke Server Vault`;
-      }
-    }
-
-    if (DESIGN_VAULT_RECORDS.length > 150) DESIGN_VAULT_RECORDS.pop();
-    savePersistedMindRecords(DESIGN_VAULT_RECORDS);
-  }
-
-  function summonLeadsToExecutive(commanderName) {
-    const pdBot = animatedRobots.find(b => b.roleTitle.includes("Project Director Konstruksi"));
-    const pmBot = animatedRobots.find(b => b.roleTitle.includes("Project Manager (PM)"));
-    if (!pdBot || !pmBot) return;
-
-    if (commanderName === 'SuperSEIYA') {
-      executiveSummonTarget = 'owner';
-      pdBot.summonPos = new THREE.Vector3(17.15, pdBot.homePos.y, -5.45);
-      pmBot.summonPos = new THREE.Vector3(17.15, pmBot.homePos.y, -6.95);
-    } else if (commanderName === 'SuperPRICILIA') {
-      executiveSummonTarget = 'commissioner';
-      pdBot.summonPos = new THREE.Vector3(16.95, pdBot.homePos.y, 4.75);
-      pmBot.summonPos = new THREE.Vector3(16.95, pmBot.homePos.y, 6.05);
-    } else {
-      executiveSummonTarget = 'boardroom';
-      pdBot.summonPos = new THREE.Vector3(1.85, pdBot.homePos.y, 5.25);
-      pmBot.summonPos = new THREE.Vector3(2.85, pmBot.homePos.y, 5.25);
-    }
-  }
-
-  function releaseLeadsFromExecutive() {
-    executiveSummonTarget = null;
-    animatedRobots.forEach(bot => {
-      bot.summonPos = null;
-    });
-  }
-
-  function showBotBubble(bot, text, styleType = 'exec', durationSec = 5.5) {
-    if (!bot || !bot.cmdBubbleEl) return;
-    bot.cmdBubbleEl.textContent = text;
-    if (styleType === 'exec') {
-      bot.cmdBubbleEl.className = 'absolute z-25 pointer-events-none px-2.5 py-1 rounded-lg text-[10px] font-bold bg-amber-950/95 text-amber-200 border border-amber-400 shadow-lg whitespace-nowrap';
-    } else if (styleType === 'chain') {
-      bot.cmdBubbleEl.className = 'absolute z-25 pointer-events-none px-2 py-0.5 rounded-lg text-[9.5px] font-semibold bg-sky-950/95 text-sky-200 border border-sky-400/80 shadow-md whitespace-nowrap';
-    } else {
-      bot.cmdBubbleEl.className = 'absolute z-20 pointer-events-none px-2 py-0.5 rounded-lg text-[9.5px] font-medium bg-emerald-950/90 text-emerald-200 border border-emerald-400/60 shadow whitespace-nowrap';
-    }
-    bot.commandActiveUntil = (performance.now() / 1000) + durationSec;
-  }
-
-  function dispatchExecutiveCommand(commanderName, cmdText) {
-    const cleanCmd = cmdText.trim();
-    if (!cleanCmd) return;
-
-    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-    const isPartnerSender = !!session && session.role === "Rekan Bisnis";
-    const senderPartnerId = isPartnerSender ? session.id : null;
-    const effectiveCommander = isPartnerSender ? (session.fullName || session.id) : commanderName;
-
-    if (isAgentsResting) {
-      isAgentsResting = false;
-      const restBtn = document.getElementById('btn-agents-rest');
-      const restLabel = document.getElementById('rest-label');
-      if (restLabel) restLabel.textContent = 'AI Istirahat';
-      if (restBtn) restBtn.classList.remove('!bg-amber-600', '!border-amber-300', 'text-slate-950');
-    }
-
-    const logBox = document.getElementById('executive-cmd-log');
-    if (logBox) {
-      const colorClass = effectiveCommander === 'SuperSEIYA'
-        ? 'text-amber-300'
-        : (effectiveCommander === 'SuperPRICILIA' ? 'text-pink-300' : 'text-emerald-300');
-      logBox.innerHTML = `
-        <span class="truncate"><strong class="${colorClass}">${effectiveCommander}:</strong> "${cleanCmd}"</span>
-        <span class="text-[9px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/30 shrink-0">DISPATCHED</span>
-      `;
-    }
-
-    const execBot = animatedRobots.find(b => b.roleTitle.includes(effectiveCommander))
-      || animatedRobots.find(b => b.isExecutive)
-      || animatedRobots[0];
-    const pdBot = animatedRobots.find(b => b.roleTitle.includes("Project Director Konstruksi"));
-    const pmBot = animatedRobots.find(b => b.roleTitle.includes("Project Manager (PM)"));
-    const dmBot = animatedRobots.find(b => b.roleTitle.includes("Design Manager"));
-    const bmBot = animatedRobots.find(b => b.roleTitle.includes("BIM Manager"));
-    const bcBot = animatedRobots.find(b => b.roleTitle.includes("BIM Coordinator"));
-    const qaBot = animatedRobots.find(b => b.roleTitle.includes("Quality Assurance"));
-
-    activeMeetingTopic = cleanCmd;
-    lastExecutivePrompt = cleanCmd;
-    meetingVersion = 1;
-    meetingReviewStatus = "⏳ Menunggu Pemeriksaan Owner / Komisaris";
-    selectedVaultPackageId = null;
-
-    const shortCmd = cleanCmd.length > 34 ? cleanCmd.slice(0, 34) + "..." : cleanCmd;
-    const timeStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-
-    const senderRecord = {
-      time: timeStr,
-      type: isPartnerSender ? `Permintaan Desain Rekan Bisnis (${effectiveCommander})` : `Perintah Eksekutif (${effectiveCommander})`,
-      commander: effectiveCommander,
-      partnerId: senderPartnerId,
-      isPartnerRequest: isPartnerSender,
-      note: `Instruksi dikirim: "${cleanCmd}"`
-    };
-    DESIGN_VAULT_RECORDS.unshift(senderRecord);
-    savePersistedMindRecords(DESIGN_VAULT_RECORDS);
-
-    if (execBot) {
-      const bubbleIcon = isPartnerSender ? '🤝' : (effectiveCommander === 'SuperSEIYA' ? '👑' : '💎');
-      showBotBubble(execBot, `${bubbleIcon} "${shortCmd}"`, 'exec', 6.5);
-      appendMeetingMessage(execBot, cleanCmd, true);
-    }
-
-    summonLeadsToExecutive(effectiveCommander);
-    if (pdBot) {
-      showBotBubble(pdBot, `🫡 Menghadap ${effectiveCommander}: Siap terima instruksi!`, 'chain', 4.5);
-    }
-    if (pmBot) {
-      showBotBubble(pmBot, `🫡 Menghadap ${effectiveCommander}: Siap koordinasi!`, 'chain', 4.5);
-    }
-
-    setTimeout(() => {
+      appendMeetingMessage(execBot || pdBot, `Catatan Revisi (v${meetingVersion}): "${note}"`, true);
       if (pdBot) {
-        const msgPd = `Instruksi diterima dari ${effectiveCommander}. Menghadap & menyusun strategi pelaksanaan "${cleanCmd}".`;
-        showBotBubble(pdBot, `📢 Arahan ${effectiveCommander}: "${shortCmd}"`, 'chain', 6.5);
-        pdBot.mindMemory.unshift({
-          time: timeStr,
-          type: 'Arahan Eksekutif Diterima',
-          commander: effectiveCommander,
-          partnerId: senderPartnerId,
-          note: msgPd
-        });
-        appendMeetingMessage(pdBot, msgPd, false);
-        generateAgentPromptOutput(pdBot, cleanCmd);
+        showBotBubble(pdBot, `🔄 Eksekusi Revisi v${meetingVersion}...`, 'chain', 5.0);
+        appendMeetingMessage(pdBot, `Siap! Seluruh tim AI segera memperbarui dokumen hasil kerja ke versi v${meetingVersion} sesuai catatan: "${note}".`, false);
+        generateAgentPromptOutput(pdBot, `${lastExecutivePrompt} [Revisi v${meetingVersion}: ${note}]`);
       }
-      if (pmBot) {
-        const msgPm = `Siap Pak PD! Membagi work-package "${cleanCmd}" ke seluruh tim spesialis dan menyinkronkan jadwal BIM.`;
-        showBotBubble(pmBot, `📋 Siap Pak PD! Koordinasi tim untuk: "${shortCmd}"`, 'chain', 6.5);
-        pmBot.mindMemory.unshift({
-          time: timeStr,
-          type: 'Penjadwalan & Delegasi PM',
-          commander: effectiveCommander,
-          partnerId: senderPartnerId,
-          note: msgPm
-        });
-        appendMeetingMessage(pmBot, msgPm, false);
-        generateAgentPromptOutput(pmBot, cleanCmd);
+      if (qsBot) {
+        generateAgentPromptOutput(qsBot, `Penyesuaian estimasi & spesifikasi berdasarkan revisi: ${note}`);
       }
-    }, 1100);
-
-    setTimeout(() => {
-      if (dmBot) {
-        const msgDm = `Membuka rapat koordinasi desain arsitektur & struktur untuk "${cleanCmd}".`;
-        showBotBubble(dmBot, `📐 Koordinasi Desain: "${shortCmd}"`, 'chain', 5.8);
-        appendMeetingMessage(dmBot, msgDm, false);
-        generateAgentPromptOutput(dmBot, cleanCmd);
-      }
-      if (bmBot) {
-        const msgBm = `Menyelaraskan standar BIM Level 350 dan parameter 3D model untuk "${cleanCmd}".`;
-        showBotBubble(bmBot, `🧊 Sinkronisasi BIM: "${shortCmd}"`, 'chain', 5.8);
-        appendMeetingMessage(bmBot, msgBm, false);
-        generateAgentPromptOutput(bmBot, cleanCmd);
-      }
-      if (bcBot) {
-        const msgBc = `Menjalankan clash-detection antar disiplin MEP, struktur, dan arsitektur.`;
-        showBotBubble(bcBot, `🔗 Clash Check & Koordinasi Model 3D`, 'chain', 5.8);
-        appendMeetingMessage(bcBot, msgBc, false);
-        generateAgentPromptOutput(bcBot, cleanCmd);
-      }
-      if (qaBot) {
-        const msgQa = `Memverifikasi kepatuhan standar SNI, K3 konstruksi, dan QA/QC dokumen sebelum disimpan ke Design Server Vault.`;
-        showBotBubble(qaBot, `✅ Validasi Standar QA/QC & K3`, 'chain', 5.8);
-        appendMeetingMessage(qaBot, msgQa, false);
-        generateAgentPromptOutput(qaBot, cleanCmd);
-      }
-    }, 2200);
-
-    setTimeout(() => {
-      releaseLeadsFromExecutive();
-      const lower = cleanCmd.toLowerCase();
-      let targetRoom = 'all';
-      if (lower.includes('arsitek') || lower.includes('struktur') || lower.includes('jembatan') || lower.includes('jalan') || lower.includes('mep') || lower.includes('hvac') || lower.includes('listrik')) {
-        targetRoom = 'noc';
-      } else if (lower.includes('bim') || lower.includes('3d') || lower.includes('cad') || lower.includes('render') || lower.includes('gambar')) {
-        targetRoom = 'visual3d';
-      } else if (lower.includes('rab') || lower.includes('biaya') || lower.includes('qs') || lower.includes('kontrak') || lower.includes('dokumen') || lower.includes('admin')) {
-        targetRoom = 'workspace';
-      } else if (lower.includes('rencana') || lower.includes('masterplan') || lower.includes('amdal') || lower.includes('k3') || lower.includes('survey') || lower.includes('gis')) {
-        targetRoom = 'rnd';
-      }
-
-      const specialists = animatedRobots.filter(b =>
-        !b.isExecutive && !b.isSecurity && b.roomCode !== 'pod' &&
-        (targetRoom === 'all' || b.roomCode === targetRoom)
-      );
-
-      specialists.forEach((bot, idx) => {
-        setTimeout(async () => {
-          const shortRole = bot.roleTitle.split('(')[0].trim();
-          const geminiReply = await askRealGeminiAgent(bot, cleanCmd);
-          const workNote = geminiReply
-            ? `${shortRole} (Gemini AI): ${geminiReply}`
-            : `${shortRole} selesai mengeksekusi & menyimpan hasil "${cleanCmd}" ke Design Server Room.`;
-          showBotBubble(bot, `⚡ ${shortRole}: ${geminiReply ? geminiReply.slice(0, 36) + '...' : 'Eksekusi "' + shortCmd + '"'}`, 'work', 6.0);
-          bot.mindMemory.unshift({
-            time: timeStr,
-            type: 'Eksekusi Perintah Eksekutif',
-            commander: effectiveCommander,
-            partnerId: senderPartnerId,
-            note: workNote
-          });
-          DESIGN_VAULT_RECORDS.unshift({
-            agent: bot.roleTitle,
-            time: timeStr,
-            type: 'Output Tersimpan di Server',
-            commander: effectiveCommander,
-            partnerId: senderPartnerId,
-            isPartnerRequest: isPartnerSender,
-            note: workNote
-          });
-          savePersistedMindRecords(DESIGN_VAULT_RECORDS);
-          if (idx < 3) {
-            appendMeetingMessage(bot, workNote, false);
-            generateAgentPromptOutput(bot, cleanCmd);
-          }
-        }, idx * 140);
-      });
-    }, 3200);
-  }
-
-  function buildAmbientLobbyParticles() {
-    const count = 42;
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      positions[i * 3] = -3.8 + Math.random() * 6.5;
-      positions[i * 3 + 1] = 0.5 + Math.random() * 2.6;
-      positions[i * 3 + 2] = -3.6 + Math.random() * 5.2;
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const mat = new THREE.PointsMaterial({
-      color: 0x7dd3fc,
-      size: 0.085,
-      transparent: true,
-      opacity: 0.65
-    });
-    lobbyParticles = new THREE.Points(geo, mat);
-    scene.add(lobbyParticles);
-  }
-
-  function createHotspotElements() {
-    const layer = document.getElementById('labels-layer');
-    HOTSPOTS.forEach(spot => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.dataset.spotId = spot.id;
-      btn.className = 'hotspot-label glass-panel px-2.5 py-1 rounded-full text-[11px] font-semibold text-white flex items-center gap-1.5 shadow-lg';
-      btn.innerHTML = `
-        <span class="spot-dot w-2 h-2 rounded-full bg-sky-400 pulse-dot"></span>
-        <span>${spot.name}</span>
-      `;
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-        if (!isExecutiveUser(session) && !(session && session.role === "Rekan Bisnis" && spot.id === "design_vault")) return;
-        focusOnZone(spot.id);
-        if (spot.id === 'boardroom') {
-          openMeetingChatModal();
-        } else if (spot.id === 'design_vault') {
-          openDesignServerModal();
-        } else if (spot.id === 'commissioner') {
-          openCommissionerPartnerModal();
-        }
-      });
-      layer.appendChild(btn);
-      spot.el = btn;
-    });
-  }
-
-  function focusOnZone(zoneKey) {
-    const z = ZONES[zoneKey];
-    if (!z) return;
-    activeZoneKey = zoneKey;
-    camTransition.targetPos.copy(z.pos);
-    camTransition.targetLookAt.copy(z.lookAt);
-    camTransition.targetZoom = z.zoom;
-    camTransition.active = true;
-
-    document.querySelectorAll('#nav .nav-item').forEach(btn => {
-      btn.removeAttribute('aria-current');
-      if (btn.dataset.zoneNav === zoneKey) {
-        btn.setAttribute('aria-current', 'page');
-      }
-    });
-  }
-
-  function toggleAgentsRestMode() {
-    isAgentsResting = !isAgentsResting;
-    const restBtn = document.getElementById('btn-agents-rest');
-    const restLabel = document.getElementById('rest-label');
-
-    if (isAgentsResting) {
-      if (restLabel) restLabel.textContent = 'Kembali Bekerja';
-      if (restBtn) restBtn.classList.add('!bg-amber-600', '!border-amber-300', 'text-slate-950');
-      focusOnZone('vip');
-    } else {
-      if (restLabel) restLabel.textContent = 'AI Istirahat';
-      if (restBtn) restBtn.classList.remove('!bg-amber-600', '!border-amber-300', 'text-slate-950');
-      focusOnZone('overview');
-    }
-  }
-
-  function setLightingMood(mood) {
-    currentMood = mood;
-    const container = document.getElementById('canvas-container');
-
-    document.querySelectorAll('.mood-btn').forEach(b => {
-      b.classList.remove('active', 'bg-blue-600/80', 'bg-amber-500/80', 'bg-red-600/80', 'text-white');
-      b.classList.add('text-slate-300');
-      if (b.dataset.mood === mood) {
-        b.classList.add('active', 'text-white');
-        b.classList.remove('text-slate-300');
-        if (mood === 'night') b.classList.add('bg-blue-600/80');
-        if (mood === 'day') b.classList.add('bg-amber-500/80');
-        if (mood === 'alert') b.classList.add('bg-red-600/80');
-      }
-    });
-
-    document.querySelectorAll('.spot-dot').forEach(dot => {
-      if (mood === 'alert') {
-        dot.classList.remove('bg-sky-400', 'pulse-dot');
-        dot.classList.add('bg-red-500', 'alert-dot');
-      } else {
-        dot.classList.remove('bg-red-500', 'alert-dot');
-        dot.classList.add('bg-sky-400', 'pulse-dot');
-      }
-    });
-
-    if (mood === 'night') {
-      container.style.background = 'radial-gradient(circle at 50% 45%, #050b18 0%, #010308 86%)';
-      scene.fog.color.setHex(0x010308);
-      hemiLight.color.setHex(0x38bdf8);
-      hemiLight.groundColor.setHex(0x060a14);
-      hemiLight.intensity = 0.16;
-      dirLight.color.setHex(0x7dd3fc);
-      dirLight.intensity = 0.24;
-      rimLight.color.setHex(0x4f46e5);
-      rimLight.intensity = 0.28;
-      bloomPass.strength = 0.38;
-      bloomPass.threshold = 0.82;
-      if (renderer) renderer.toneMappingExposure = 0.72;
-    } else if (mood === 'day') {
-      container.style.background = 'radial-gradient(circle at 50% 35%, #132844 0%, #070e1c 86%)';
-      scene.fog.color.setHex(0x070e1c);
-      hemiLight.color.setHex(0x93c5fd);
-      hemiLight.groundColor.setHex(0x111827);
-      hemiLight.intensity = 0.34;
-      dirLight.color.setHex(0xe0f2fe);
-      dirLight.intensity = 0.50;
-      rimLight.color.setHex(0x38bdf8);
-      rimLight.intensity = 0.26;
-      bloomPass.strength = 0.26;
-      bloomPass.threshold = 0.86;
-      if (renderer) renderer.toneMappingExposure = 0.80;
-    } else if (mood === 'alert') {
-      container.style.background = 'radial-gradient(circle at 50% 45%, #14040a 0%, #030104 86%)';
-      scene.fog.color.setHex(0x030104);
-      hemiLight.color.setHex(0x9f1239);
-      hemiLight.groundColor.setHex(0x070206);
-      hemiLight.intensity = 0.14;
-      dirLight.color.setHex(0xfda4af);
-      dirLight.intensity = 0.20;
-      rimLight.color.setHex(0xe11d48);
-      rimLight.intensity = 0.36;
-      bloomPass.strength = 0.42;
-      bloomPass.threshold = 0.80;
-      if (renderer) renderer.toneMappingExposure = 0.75;
-    }
-  }
-
-  function setupInteractionEvents() {
-    document.querySelectorAll('.mood-btn').forEach(btn => {
-      btn.addEventListener('click', () => setLightingMood(btn.dataset.mood));
-    });
-
-    document.getElementById('btn-agents-rest').addEventListener('click', toggleAgentsRestMode);
-
-    document.getElementById('btn-toggle-labels').addEventListener('click', () => {
-      showLabels = !showLabels;
-      const dot = document.getElementById('label-dot');
-      dot.classList.toggle('bg-sky-400', showLabels);
-      dot.classList.toggle('bg-slate-600', !showLabels);
-    });
-
-    document.getElementById('btn-reset-cam').addEventListener('click', () => {
-      focusOnZone('overview');
-    });
-
-    const cp = document.getElementById('control');
-    document.querySelectorAll('#control [data-act]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const act = btn.dataset.act;
-        if (act === 'in') {
-          camTransition.active = false;
-              camera.zoom = Math.min(3.8, camera.zoom * 1.2);
-          camera.updateProjectionMatrix();
-        } else if (act === 'out') {
-          camTransition.active = false;
-              camera.zoom = Math.max(0.65, camera.zoom / 1.2);
-          camera.updateProjectionMatrix();
-        } else if (act === 'rotate') {
-          const offset = camera.position.clone().sub(controls.target);
-          offset.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 4);
-          camTransition.targetPos.copy(controls.target).add(offset);
-          camTransition.targetLookAt.copy(controls.target);
-          camTransition.targetZoom = camera.zoom;
-          camTransition.active = true;
-        } else if (act === 'full') {
-          document.fullscreenElement ? document.exitFullscreen() : cp.requestFullscreen?.();
-        }
-      });
-    });
-
-    const raycaster = new THREE.Raycaster();
-    const pointer = new THREE.Vector2();
-    let downX = 0, downY = 0;
-
-    renderer.domElement.addEventListener('pointerdown', (e) => {
-      downX = e.clientX;
-      downY = e.clientY;
-    });
-
-    renderer.domElement.addEventListener('pointerup', (e) => {
-      if (Math.hypot(e.clientX - downX, e.clientY - downY) > 6) return;
-      const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-      const isPartner = !!session && session.role === "Rekan Bisnis";
-      if (!isExecutiveUser(session) && !isPartner) return;
-
-      const rect = renderer.domElement.getBoundingClientRect();
-      pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
-      raycaster.setFromCamera(pointer, camera);
-      const hits = raycaster.intersectObjects(roomClickTargets, false);
-      if (hits.length > 0 && hits[0].object.userData.zoneKey) {
-        const clickedZone = hits[0].object.userData.zoneKey;
-        if (isPartner && clickedZone !== 'design_vault') return;
-        focusOnZone(clickedZone);
-        if (clickedZone === 'boardroom') {
-          openMeetingChatModal();
-        } else if (clickedZone === 'design_vault') {
-          openDesignServerModal();
-        } else if (clickedZone === 'commissioner') {
-          openCommissionerPartnerModal();
-        }
-      }
-    });
-
-    bindSenderButtonEvents();
-
-    const execCmdForm = document.getElementById('executive-cmd-form');
-    const execCmdInput = document.getElementById('executive-cmd-input');
-
-    execCmdInput?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        execCmdForm?.requestSubmit();
-      }
-    });
-
-    execCmdForm?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!execCmdInput || !execCmdInput.value.trim()) return;
-      dispatchExecutiveCommand(selectedCommander, execCmdInput.value);
-      execCmdInput.value = '';
-    });
-
-    document.getElementById('meeting-revision-input')?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        document.getElementById('btn-request-revision')?.click();
-      }
-    });
-  }
-
-  function updateHotspotPositions(timeSec) {
-    const container = document.getElementById('canvas-container');
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    const projVec = new THREE.Vector3();
-
-    HOTSPOTS.forEach(spot => {
-      if (!spot.el) return;
-      if (!showLabels) {
-        spot.el.style.opacity = '0';
-        spot.el.style.pointerEvents = 'none';
-        return;
-      }
-
-      projVec.copy(spot.pos);
-      projVec.project(camera);
-
-      const x = (projVec.x * 0.5 + 0.5) * width;
-      const y = (-(projVec.y * 0.5) + 0.5) * height;
-      const isVisible = projVec.z < 1 && x >= -40 && x <= width + 40 && y >= -20 && y <= height + 40;
-
-      if (isVisible) {
-        spot.el.style.left = `${x}px`;
-        spot.el.style.top = `${y}px`;
-        spot.el.style.opacity = '1';
-        spot.el.style.pointerEvents = 'auto';
-      } else {
-        spot.el.style.opacity = '0';
-        spot.el.style.pointerEvents = 'none';
-      }
-    });
-
-    const zoomVal = camera.zoom;
-    animatedRobots.forEach(bot => {
-      if (!bot.badgeEl) return;
-
-      const showRoleBadge = showLabels && (zoomVal >= 1.55 || bot.isExecutive);
-      const showCmdBubble = showLabels && bot.commandActiveUntil > timeSec;
-
-      if (!showRoleBadge && !showCmdBubble) {
-        bot.badgeEl.style.display = 'none';
-        if (bot.cmdBubbleEl) bot.cmdBubbleEl.style.display = 'none';
-        return;
-      }
-
-      projVec.copy(bot.group.position);
-      projVec.y += 1.62;
-      projVec.project(camera);
-
-      const bx = (projVec.x * 0.5 + 0.5) * width;
-      const by = (-(projVec.y * 0.5) + 0.5) * height;
-      const inScreen = projVec.z < 1 && bx >= -60 && bx <= width + 60 && by >= -20 && by <= height + 40;
-
-      if (inScreen && showRoleBadge) {
-        bot.badgeEl.style.display = 'block';
-        bot.badgeEl.style.left = `${bx}px`;
-        bot.badgeEl.style.top = `${by}px`;
-      } else {
-        bot.badgeEl.style.display = 'none';
-      }
-
-      if (bot.cmdBubbleEl) {
-        if (inScreen && showCmdBubble) {
-          bot.cmdBubbleEl.style.display = 'block';
-          bot.cmdBubbleEl.style.left = `${bx}px`;
-          bot.cmdBubbleEl.style.top = `${showRoleBadge ? by - 22 : by}px`;
-        } else {
-          bot.cmdBubbleEl.style.display = 'none';
-        }
-      }
-    });
-
-    partner3DAvatarBadges.forEach(badge => {
-      if (!showLabels) {
-        badge.style.display = 'none';
-        return;
-      }
-      projVec.set(parseFloat(badge.dataset.wx), parseFloat(badge.dataset.wy), parseFloat(badge.dataset.wz));
-      projVec.project(camera);
-      const px = (projVec.x * 0.5 + 0.5) * width;
-      const py = (-(projVec.y * 0.5) + 0.5) * height;
-      if (projVec.z < 1 && px >= -60 && px <= width + 60 && py >= -20 && py <= height + 40) {
-        badge.style.display = 'block';
-        badge.style.left = `${px}px`;
-        badge.style.top = `${py}px`;
-      } else {
-        badge.style.display = 'none';
-      }
+      recordToDesignVault(selectedCommander, "Permintaan Revisi (v+1)", `Meminta revisi versi v${meetingVersion}: "${note}"`);
+      saveWorkPackageToDesignServer();
+      if (revInput) revInput.value = '';
     });
   }
 
   function onWindowResize() {
-    if (!renderer || !camera) return;
+    if (!camera || !renderer || !composer) return;
     const container = document.getElementById('canvas-container');
-    const width = container.clientWidth || window.innerWidth;
-    const height = container.clientHeight || window.innerHeight;
+    const rect = container.getBoundingClientRect();
+    const width = Math.max(1, Math.round(rect.width || container.clientWidth || window.innerWidth));
+    const height = Math.max(1, Math.round(rect.height || container.clientHeight || window.innerHeight));
+
     const aspect = width / height;
-    const isMobileOrTablet = width <= 1024;
-    const frustumSize = isMobileOrTablet ? (aspect < 1 ? 29.0 : 25.5) : 23.5;
+    const isPhone = width < 640;
+    const isTablet = width >= 640 && width <= 1024;
+    let frustumSize = 23.5;
+
+    if (aspect < 1.0) {
+      frustumSize = (isPhone ? 30.5 : 27.5) / Math.max(0.55, aspect);
+    } else if (isPhone) {
+      frustumSize = 27.0;
+    } else if (isTablet) {
+      frustumSize = 25.0;
+    }
 
     camera.left = (-frustumSize * aspect) / 2;
     camera.right = (frustumSize * aspect) / 2;
     camera.top = frustumSize / 2;
     camera.bottom = -frustumSize / 2;
-
-    if (activeZoneKey === 'overview' && isMobileOrTablet && !camTransition.active) {
-      camera.zoom = aspect < 1 ? 0.92 : 1.05;
-    }
-
     camera.updateProjectionMatrix();
 
-    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(width, height, false);
     composer.setSize(width, height);
-    bloomPass.setSize(width, height);
   }
-
-  let lastScreenUpdate = 0;
 
   function animate() {
     requestAnimationFrame(animate);
 
-    const delta = Math.min(threeClock.getDelta(), 0.1);
+    const delta = threeClock.getDelta();
     const elapsed = threeClock.getElapsedTime();
 
-    if (elapsed - lastScreenUpdate > 0.08) {
-      dynamicCanvases.forEach(scr => updateSingleScreenCanvas(scr, elapsed));
-      lastScreenUpdate = elapsed;
+    if (camTransition.active) {
+      camera.position.lerp(camTransition.targetPos, 0.065);
+      controls.target.lerp(camTransition.targetLookAt, 0.065);
+      camera.zoom = THREE.MathUtils.lerp(camera.zoom, camTransition.targetZoom, 0.065);
+      camera.updateProjectionMatrix();
+
+      if (
+        camera.position.distanceTo(camTransition.targetPos) < 0.08 &&
+        controls.target.distanceTo(camTransition.targetLookAt) < 0.08 &&
+        Math.abs(camera.zoom - camTransition.targetZoom) < 0.01
+      ) {
+        camTransition.active = false;
+      }
     }
 
+    controls.update();
+
+    dynamicCanvases.forEach((scr, idx) => {
+      if (Math.floor((elapsed + idx * 0.1) * 14) !== scr.lastFrame) {
+        scr.lastFrame = Math.floor((elapsed + idx * 0.1) * 14);
+        updateSingleScreenCanvas(scr, elapsed);
+      }
+    });
+
+    animatedLights.forEach((light, i) => {
+      const base = currentMood === 'day' ? 1.4 : (currentMood === 'alert' ? 2.4 : 2.0);
+      light.intensity = base + Math.sin(elapsed * 2.4 + i * 1.1) * 0.25;
+    });
+
     if (movingCar) {
-      movingCar.position.z += delta * 4.8;
+      movingCar.position.z += delta * 4.5;
       if (movingCar.position.z > 13.5) {
         movingCar.position.z = -17.5;
       }
     }
 
-    animatedLights.forEach((lt, idx) => {
-      if (currentMood === 'alert') {
-        lt.color.setHex(0xef4444);
-        lt.intensity = 0.65 + Math.sin(elapsed * 8 + idx) * 0.42;
-      } else if (currentMood === 'day') {
-        lt.intensity = 0.72 + Math.sin(elapsed * 2.0 + idx * 1.4) * 0.06;
-      } else {
-        lt.intensity = 0.92 + Math.sin(elapsed * 2.2 + idx * 1.4) * 0.08;
-      }
-    });
+    if (lobbyParticles) {
+      lobbyParticles.rotation.y = elapsed * 0.06;
+      lobbyParticles.position.y = Math.sin(elapsed * 0.8) * 0.08;
+    }
 
-    const nowSec = performance.now() / 1000;
-    const COORD_SPOTS = [
-      { label: "Engineering Room", x: -4.2, z: -4.8 },
-      { label: "Plannologi Room",  x:  6.4, z: -4.3 },
-      { label: "3D Visual Room",   x:  1.0, z: -6.1 },
-      { label: "Administration",   x: -9.8, z:  0.8 },
-      { label: "Manager Room",     x:  8.9, z:  3.2 },
-      { label: "Pantry",           x: -11.2, z: -6.2 },
-      { label: "Rest Room",        x: -6.5, z:  4.2 },
-      { label: "Meeting Room",     x:  2.3, z:  4.5 }
-    ];
-
-    const SECURITY_PATROL_SPOTS = [
-      { label: "Lobby Utama",         x:  0.8,  z:  0.4 },
-      { label: "Koridor Tengah",      x: -4.6,  z: -2.6 },
-      { label: "Rest Room",           x: -6.5,  z:  4.2 },
-      { label: "Meeting Room",        x:  2.3,  z:  4.5 },
-      { label: "Administration Room", x: -9.8,  z:  0.8 },
-      { label: "Engineering Room",    x: -4.2,  z: -4.8 },
-      { label: "3D Visual Room",      x:  1.0,  z: -6.1 },
-      { label: "Plannologi Room",     x:  6.4,  z: -4.3 },
-      { label: "Manager Room",        x:  8.9,  z:  3.2 },
-      { label: "Design Server Room",  x: -6.8,  z: -13.1 },
-      { label: "Sayap Eksekutif",     x: 12.9,  z: -0.7 }
-    ];
-
+    const nowMs = performance.now();
     animatedRobots.forEach((bot) => {
-      if (bot.isSecurity) {
-        const patrolActive = (currentMood === 'alert') || !isAgentsResting;
-        if (!bot.patrolTargetPos && patrolActive) {
-          if (currentMood === 'alert' || Math.random() < 0.004) {
-            const spot = SECURITY_PATROL_SPOTS[Math.floor(Math.random() * SECURITY_PATROL_SPOTS.length)];
-            bot.patrolTargetPos = new THREE.Vector3(
-              spot.x + (Math.random() - 0.5) * 1.1,
-              bot.homePos.y,
-              spot.z + (Math.random() - 0.5) * 1.1
-            );
-            bot.patrolRoomLabel = spot.label;
-            bot.patrolInspectUntil = 0;
-            showBotBubble(bot, `🛡️ Patroli ke ${spot.label}`, 'chain', 3.4);
+      if (bot.isExecutive) {
+        if (bot.seated && bot.targetChairPos) {
+          // Owner / Komisaris berjalan ke kursi dan duduk
+          const dChair = bot.group.position.distanceTo(bot.targetChairPos);
+          if (dChair > 0.08) {
+            const stepTarget = (bot.walkPath && bot.walkPath.length > 0) ? bot.walkPath[0] : bot.targetChairPos;
+            const dir = stepTarget.clone().sub(bot.group.position);
+            dir.y = 0;
+            const stepLen = dir.length();
+            if (stepLen <= 0.09 && bot.walkPath && bot.walkPath.length > 0) {
+              bot.walkPath.shift();
+            } else if (stepLen > 0.001) {
+              dir.normalize();
+              bot.group.position.addScaledVector(dir, Math.min(stepLen, delta * 2.2));
+              const targetAngle = Math.atan2(dir.x, dir.z);
+              bot.group.rotation.y += (targetAngle - bot.group.rotation.y) * 0.18;
+            }
+            const swing = Math.sin(elapsed * 10 + bot.phase) * 0.55;
+            bot.legL.rotation.x = swing;
+            bot.legR.rotation.x = -swing;
+            bot.armL.rotation.x = -swing * 0.75;
+            bot.armR.rotation.x = swing * 0.75;
+          } else {
+            // Pose duduk di kursi eksekutif
+            bot.group.position.copy(bot.targetChairPos);
+            bot.group.rotation.y += (bot.homeRotY - bot.group.rotation.y) * 0.15;
+            bot.legL.rotation.x = -Math.PI / 2.3;
+            bot.legR.rotation.x = -Math.PI / 2.3;
+            bot.legL.position.set(-0.10, 0.34, 0.14);
+            bot.legR.position.set( 0.10, 0.34, 0.14);
+            bot.armL.rotation.x = -0.68;
+            bot.armR.rotation.x = -0.68;
+            bot.armL.position.z = 0.12;
+            bot.armR.position.z = 0.12;
+            bot.headGroup.rotation.y = Math.sin(elapsed * 1.1 + bot.phase) * 0.16;
           }
+          return;
         }
 
-        if (bot.patrolTargetPos) {
-          const distToSpot = bot.group.position.distanceTo(bot.patrolTargetPos);
-          if (distToSpot > 0.12) {
-            const walkSpeed = currentMood === 'alert' ? 2.1 : 1.35;
-            const step = Math.min(distToSpot, delta * walkSpeed);
-            bot.group.position.addScaledVector(
-              bot.patrolTargetPos.clone().sub(bot.group.position).normalize(),
-              step
-            );
-            const moveAngle = Math.atan2(
-              bot.patrolTargetPos.x - bot.group.position.x,
-              bot.patrolTargetPos.z - bot.group.position.z
-            );
-            bot.group.rotation.y = moveAngle;
-            const strideFreq = currentMood === 'alert' ? 7.5 : 5.4;
-            const stride = Math.sin(elapsed * strideFreq + bot.phase) * 0.34;
-            bot.legL.rotation.x = stride;
-            bot.legR.rotation.x = -stride;
-            bot.armL.rotation.x = -stride * 0.55;
-            bot.armR.rotation.x = stride * 0.55;
-            bot.group.position.y = bot.homePos.y + Math.abs(Math.sin(elapsed * strideFreq + bot.phase)) * 0.022;
+        if (bot.execWaypoints) {
+          if (nowMs < bot.execPauseUntil) {
+            bot.legL.rotation.x = 0;
+            bot.legR.rotation.x = 0;
+            bot.armL.rotation.x = Math.sin(elapsed * 2 + bot.phase) * 0.08;
+            bot.armR.rotation.x = -Math.sin(elapsed * 2 + bot.phase) * 0.08;
+            bot.headGroup.rotation.y = Math.sin(elapsed * 1.2 + bot.phase) * 0.25;
+            return;
+          }
+
+          const wp = bot.execWaypoints[bot.execWpIdx];
+          const dir = wp.clone().sub(bot.group.position);
+          dir.y = 0;
+          const dist = dir.length();
+
+          if (dist > 0.08) {
+            dir.normalize();
+            bot.group.position.addScaledVector(dir, Math.min(dist, delta * 1.55));
+            const targetAngle = Math.atan2(dir.x, dir.z);
+            bot.group.rotation.y += (targetAngle - bot.group.rotation.y) * 0.12;
+
+            const walkSwing = Math.sin(elapsed * 8.5 + bot.phase) * 0.52;
+            bot.legL.rotation.x = walkSwing;
+            bot.legR.rotation.x = -walkSwing;
+            bot.armL.rotation.x = -walkSwing * 0.72;
+            bot.armR.rotation.x = walkSwing * 0.72;
+            bot.headGroup.rotation.y = Math.sin(elapsed * 1.8 + bot.phase) * 0.12;
           } else {
-            if (bot.patrolInspectUntil === 0) {
-              bot.patrolInspectUntil = nowSec + (currentMood === 'alert' ? 2.8 : 4.5);
-              showBotBubble(bot, `🔍 Cek Keamanan: ${bot.patrolRoomLabel}`, 'work', 3.2);
+            bot.execWpIdx = (bot.execWpIdx + 1) % bot.execWaypoints.length;
+            bot.execPauseUntil = nowMs + 2200 + Math.random() * 1800;
+          }
+          return;
+        }
+      }
+
+      if (bot.isSecurity) {
+        if (bot.patrolTargetPos) {
+          const dPatrol = bot.group.position.distanceTo(bot.patrolTargetPos);
+          if (dPatrol > 0.12) {
+            const stepTarget = (bot.walkPath && bot.walkPath.length > 0) ? bot.walkPath[0] : bot.patrolTargetPos;
+            const dir = stepTarget.clone().sub(bot.group.position);
+            dir.y = 0;
+            const stepLen = dir.length();
+            if (stepLen <= 0.12 && bot.walkPath && bot.walkPath.length > 0) {
+              bot.walkPath.shift();
+            } else if (stepLen > 0.001) {
+              dir.normalize();
+              bot.group.position.addScaledVector(dir, Math.min(stepLen, delta * 2.35));
+              const targetAngle = Math.atan2(dir.x, dir.z);
+              bot.group.rotation.y += (targetAngle - bot.group.rotation.y) * 0.16;
+            }
+
+            const swing = Math.sin(elapsed * 10 + bot.phase) * 0.55;
+            bot.legL.rotation.x = swing;
+            bot.legR.rotation.x = -swing;
+            bot.armL.rotation.x = -swing * 0.75;
+            bot.armR.rotation.x = swing * 0.75;
+            bot.legL.position.set(-0.10, 0.23, 0);
+            bot.legR.position.set( 0.10, 0.23, 0);
+            bot.armL.position.z = 0;
+            bot.armR.position.z = 0;
+          } else {
+            if (!bot.patrolInspectUntil) {
+              bot.patrolInspectUntil = nowMs + 2600;
+              showBotBubble(bot, `✅ ${bot.patrolRoomLabel} Aman`, 'work', 2.5);
             }
             bot.legL.rotation.x = 0;
             bot.legR.rotation.x = 0;
-            bot.armL.rotation.x = Math.sin(elapsed * 2.5 + bot.phase) * 0.14;
-            bot.armR.rotation.x = -Math.sin(elapsed * 2.5 + bot.phase) * 0.14;
-            bot.headGroup.rotation.y = Math.sin(elapsed * 2.0 + bot.phase) * 0.45;
-            if (nowSec > bot.patrolInspectUntil) {
+            bot.armL.rotation.x = 0;
+            bot.armR.rotation.x = 0;
+            bot.headGroup.rotation.y = Math.sin(elapsed * 2.6 + bot.phase) * 0.35;
+
+            if (nowMs >= bot.patrolInspectUntil) {
               bot.patrolTargetPos = null;
               bot.patrolInspectUntil = 0;
+              setBotDestinationSafe(bot, bot.homePos);
             }
           }
           return;
         }
       }
 
-      if (bot.isExecutive && bot.execWaypoints && bot.execWaypoints.length > 0) {
-        const targetWp = bot.execWaypoints[bot.execWpIdx];
-        const distWp = bot.group.position.distanceTo(targetWp);
+      const activeCoordTarget = (!isAgentsResting && !bot.summonPos && bot.coordTargetPos && nowMs < bot.coordChatUntil)
+        ? bot.coordTargetPos
+        : null;
 
-        if (distWp > 0.10) {
-          const step = Math.min(distWp, delta * 1.15);
-          bot.group.position.addScaledVector(
-            targetWp.clone().sub(bot.group.position).normalize(),
-            step
-          );
-          const walkAngle = Math.atan2(
-            targetWp.x - bot.group.position.x,
-            targetWp.z - bot.group.position.z
-          );
-          bot.group.rotation.y = walkAngle;
-          const stride = Math.sin(elapsed * 4.8 + bot.phase) * 0.30;
-          bot.legL.rotation.x = stride;
-          bot.legR.rotation.x = -stride;
-          bot.armL.rotation.x = -stride * 0.5;
-          bot.armR.rotation.x = stride * 0.5;
-          bot.group.position.y = bot.homePos.y + Math.abs(Math.sin(elapsed * 4.8 + bot.phase)) * 0.02;
-        } else {
-          if (bot.execPauseUntil === 0) {
-            bot.execPauseUntil = nowSec + 3.5 + Math.random() * 3.0;
-          }
-          bot.legL.rotation.x = 0;
-          bot.legR.rotation.x = 0;
-          bot.armL.rotation.x = Math.sin(elapsed * 2.0 + bot.phase) * 0.10;
-          bot.armR.rotation.x = -Math.sin(elapsed * 2.0 + bot.phase) * 0.10;
-          bot.headGroup.rotation.y = Math.sin(elapsed * 1.2 + bot.phase) * 0.28;
-          if (nowSec > bot.execPauseUntil) {
-            bot.execPauseUntil = 0;
-            bot.execWpIdx = (bot.execWpIdx + 1) % bot.execWaypoints.length;
-          }
-        }
-        return;
+      if (!isAgentsResting && !bot.summonPos && bot.coordTargetPos && nowMs >= bot.coordChatUntil) {
+        bot.coordTargetPos = null;
+        setBotDestinationSafe(bot, bot.homePos);
       }
 
-      if (!bot.isExecutive && bot.summonPos) {
-        const distSummon = bot.group.position.distanceTo(bot.summonPos);
-        if (distSummon > 0.12) {
-          const step = Math.min(distSummon, delta * 1.55);
-          bot.group.position.addScaledVector(
-            bot.summonPos.clone().sub(bot.group.position).normalize(),
-            step
-          );
-          const walkAngle = Math.atan2(
-            bot.summonPos.x - bot.group.position.x,
-            bot.summonPos.z - bot.group.position.z
-          );
-          bot.group.rotation.y = walkAngle;
-          const stride = Math.sin(elapsed * 5.8 + bot.phase) * 0.35;
-          bot.legL.rotation.x = stride;
-          bot.legR.rotation.x = -stride;
-          bot.armL.rotation.x = -stride * 0.55;
-          bot.armR.rotation.x = stride * 0.55;
-          bot.group.position.y = bot.homePos.y + Math.abs(Math.sin(elapsed * 5.8 + bot.phase)) * 0.022;
-        } else {
-          const execX = executiveSummonTarget === 'owner' ? 18.95 : (executiveSummonTarget === 'commissioner' ? 19.20 : 2.3);
-          const execZ = executiveSummonTarget === 'owner' ? -6.2 : (executiveSummonTarget === 'commissioner' ? 5.4 : 6.2);
-          bot.group.rotation.y = Math.atan2(execX - bot.group.position.x, execZ - bot.group.position.z);
-          bot.legL.rotation.x = 0;
-          bot.legR.rotation.x = 0;
-          bot.armL.rotation.x = -0.35 + Math.sin(elapsed * 4.0 + bot.phase) * 0.20;
-          bot.armR.rotation.x = -0.35 - Math.sin(elapsed * 4.0 + bot.phase) * 0.20;
-          bot.headGroup.rotation.y = Math.sin(elapsed * 2.0 + bot.phase) * 0.18;
+      const finalTargetPos = isAgentsResting
+        ? bot.restPos
+        : (bot.summonPos ? bot.summonPos : (activeCoordTarget ? activeCoordTarget : bot.homePos));
+
+      const distToFinal = bot.group.position.distanceTo(finalTargetPos);
+
+      if (distToFinal > 0.08) {
+        const stepTarget = (bot.walkPath && bot.walkPath.length > 0) ? bot.walkPath[0] : finalTargetPos;
+        const dir = stepTarget.clone().sub(bot.group.position);
+        dir.y = 0;
+        const stepLen = dir.length();
+        if (stepLen <= 0.10 && bot.walkPath && bot.walkPath.length > 0) {
+          bot.walkPath.shift();
+        } else if (stepLen > 0.001) {
+          dir.normalize();
+          const speed = (bot.summonPos || activeCoordTarget) ? 2.65 : 2.3;
+          bot.group.position.addScaledVector(dir, Math.min(stepLen, delta * speed));
+          const targetAngle = Math.atan2(dir.x, dir.z);
+          bot.group.rotation.y += (targetAngle - bot.group.rotation.y) * 0.18;
         }
-        return;
-      }
 
-      if (!bot.isExecutive && !bot.isSecurity && !isAgentsResting && !bot.coordTargetPos) {
-        if (Math.random() < 0.0014) {
-          const spot = COORD_SPOTS[Math.floor(Math.random() * COORD_SPOTS.length)];
-          bot.coordTargetPos = new THREE.Vector3(
-            spot.x + (Math.random() - 0.5) * 1.1,
-            bot.homePos.y,
-            spot.z + (Math.random() - 0.5) * 1.1
-          );
-          bot.coordRoomLabel = spot.label;
-          bot.coordChatUntil = 0;
-          if (bot.commandActiveUntil < nowSec) {
-            showBotBubble(bot, `🚶 Koordinasi ke ${spot.label}`, 'chain', 3.0);
-          }
-        }
-      }
-
-      if (!bot.isExecutive && !isAgentsResting && bot.coordTargetPos) {
-        const distCoord = bot.group.position.distanceTo(bot.coordTargetPos);
-        if (distCoord > 0.12) {
-          const step = Math.min(distCoord, delta * 1.35);
-          bot.group.position.addScaledVector(
-            bot.coordTargetPos.clone().sub(bot.group.position).normalize(),
-            step
-          );
-          const moveAngle = Math.atan2(
-            bot.coordTargetPos.x - bot.group.position.x,
-            bot.coordTargetPos.z - bot.group.position.z
-          );
-          bot.group.rotation.y = moveAngle;
-          const stride = Math.sin(elapsed * 5.2 + bot.phase) * 0.32;
-          bot.legL.rotation.x = stride;
-          bot.legR.rotation.x = -stride;
-          bot.armL.rotation.x = -stride * 0.52;
-          bot.armR.rotation.x = stride * 0.52;
-          bot.group.position.y = bot.homePos.y + Math.abs(Math.sin(elapsed * 5.2 + bot.phase)) * 0.02;
-        } else {
-          if (bot.coordChatUntil === 0) {
-            bot.coordChatUntil = nowSec + 3.8 + Math.random() * 2.5;
-            if (bot.commandActiveUntil < nowSec) {
-              const chatTopic = COORDINATION_DIALOGS[Math.floor(Math.random() * COORDINATION_DIALOGS.length)];
-              showBotBubble(bot, `💬 ${chatTopic}`, 'chain', 3.2);
-            }
-          }
-          bot.legL.rotation.x = 0;
-          bot.legR.rotation.x = 0;
-          bot.armL.rotation.x = -0.35 + Math.sin(elapsed * 4.0 + bot.phase) * 0.20;
-          bot.armR.rotation.x = -0.35 - Math.sin(elapsed * 4.0 + bot.phase) * 0.20;
-          bot.headGroup.rotation.y = Math.sin(elapsed * 2.0 + bot.phase) * 0.30;
-          if (nowSec > bot.coordChatUntil) {
-            bot.coordTargetPos = null;
-            bot.coordChatUntil = 0;
-          }
-        }
-        return;
-      }
-
-      const shouldRest = isAgentsResting && !bot.isExecutive && !bot.isSecurity;
-      const targetPos = shouldRest ? bot.restPos : bot.homePos;
-      const dist = bot.group.position.distanceTo(targetPos);
-
-      if (dist > 0.08) {
-        const step = Math.min(dist, delta * 1.40);
-        bot.group.position.addScaledVector(
-          targetPos.clone().sub(bot.group.position).normalize(),
-          step
-        );
-        const moveAngle = Math.atan2(
-          targetPos.x - bot.group.position.x,
-          targetPos.z - bot.group.position.z
-        );
-        bot.group.rotation.y = moveAngle;
-
-        const stride = Math.sin(elapsed * 5.2 + bot.phase) * 0.32;
-        bot.legL.rotation.x = stride;
-        bot.legR.rotation.x = -stride;
-        bot.armL.rotation.x = -stride * 0.52;
-        bot.armR.rotation.x = stride * 0.52;
-        bot.group.position.y = bot.homePos.y + Math.abs(Math.sin(elapsed * 5.2 + bot.phase)) * 0.02;
+        const swing = Math.sin(elapsed * 11 + bot.phase) * 0.58;
+        bot.legL.rotation.x = swing;
+        bot.legR.rotation.x = -swing;
+        bot.armL.rotation.x = -swing * 0.78;
+        bot.armR.rotation.x = swing * 0.78;
+        bot.legL.position.set(-0.10, 0.23, 0);
+        bot.legR.position.set( 0.10, 0.23, 0);
+        bot.armL.position.z = 0;
+        bot.armR.position.z = 0;
       } else {
-        bot.group.position.copy(targetPos);
-        if (shouldRest) {
-          bot.group.rotation.y = Math.atan2(-6.5 - bot.group.position.x, 5.8 - bot.group.position.z);
+        bot.group.position.copy(finalTargetPos);
+
+        if (isAgentsResting) {
+          bot.group.rotation.y += (0 - bot.group.rotation.y) * 0.1;
+          bot.legL.rotation.x = -Math.PI / 2.3;
+          bot.legR.rotation.x = -Math.PI / 2.3;
+          bot.legL.position.set(-0.10, 0.34, 0.14);
+          bot.legR.position.set( 0.10, 0.34, 0.14);
+          bot.armL.rotation.x = -0.35 + Math.sin(elapsed * 1.5 + bot.phase) * 0.08;
+          bot.armR.rotation.x = -0.35 - Math.sin(elapsed * 1.5 + bot.phase) * 0.08;
+          bot.headGroup.rotation.y = Math.sin(elapsed * 0.9 + bot.phase) * 0.22;
+        } else if (bot.summonPos || activeCoordTarget) {
+          const faceTarget = bot.summonPos
+            ? (executiveSummonTarget === 'commissioner' ? new THREE.Vector3(19.2, 0.16, 5.4) : new THREE.Vector3(18.95, 0.16, -6.2))
+            : finalTargetPos;
+          const lookAngle = Math.atan2(faceTarget.x - bot.group.position.x, faceTarget.z - bot.group.position.z);
+          bot.group.rotation.y += (lookAngle - bot.group.rotation.y) * 0.15;
           bot.legL.rotation.x = 0;
           bot.legR.rotation.x = 0;
-          bot.armL.rotation.x = Math.sin(elapsed * 1.4 + bot.phase) * 0.08;
-          bot.armR.rotation.x = -Math.sin(elapsed * 1.4 + bot.phase) * 0.08;
-          bot.headGroup.rotation.y = Math.sin(elapsed * 1.0 + bot.phase) * 0.30;
+          bot.legL.position.set(-0.10, 0.23, 0);
+          bot.legR.position.set( 0.10, 0.23, 0);
+          bot.armL.rotation.x = -0.45 + Math.sin(elapsed * 4.2 + bot.phase) * 0.18;
+          bot.armR.rotation.x = -0.45 - Math.sin(elapsed * 4.2 + bot.phase) * 0.18;
+          bot.headGroup.rotation.y = Math.sin(elapsed * 2.2 + bot.phase) * 0.16;
         } else {
-          bot.group.rotation.y = bot.homeRotY;
+          bot.group.rotation.y += (bot.homeRotY - bot.group.rotation.y) * 0.12;
           if (bot.seated) {
             bot.legL.rotation.x = -Math.PI / 2.3;
             bot.legR.rotation.x = -Math.PI / 2.3;
+            bot.legL.position.set(-0.10, 0.34, 0.14);
+            bot.legR.position.set( 0.10, 0.34, 0.14);
+            bot.armL.position.z = 0.12;
+            bot.armR.position.z = 0.12;
           } else {
             bot.legL.rotation.x = 0;
             bot.legR.rotation.x = 0;
+            bot.legL.position.set(-0.10, 0.23, 0);
+            bot.legR.position.set( 0.10, 0.23, 0);
+            bot.armL.position.z = 0;
+            bot.armR.position.z = 0;
           }
-          bot.headGroup.rotation.y = Math.sin(elapsed * 1.2 + bot.phase) * 0.22;
-          const workSpeed = bot.commandActiveUntil > nowSec ? 10 : 5;
-          bot.armL.rotation.x = -0.68 + Math.sin(elapsed * workSpeed + bot.phase) * 0.12;
-          bot.armR.rotation.x = -0.68 - Math.sin(elapsed * workSpeed + bot.phase) * 0.12;
+
+          const isCommanded = nowMs < bot.commandActiveUntil;
+          const speed = isCommanded ? 5.2 : 1.7;
+          const amp = isCommanded ? 0.24 : 0.08;
+
+          bot.headGroup.rotation.y = Math.sin(elapsed * speed + bot.phase) * amp;
+          bot.headGroup.rotation.x = Math.cos(elapsed * (speed * 0.8) + bot.phase) * (amp * 0.5);
+
+          if (bot.seated) {
+            bot.armL.rotation.x = -0.68 + Math.sin(elapsed * (speed * 2.2) + bot.phase) * (amp * 0.75);
+            bot.armR.rotation.x = -0.68 - Math.sin(elapsed * (speed * 2.2) + bot.phase) * (amp * 0.75);
+          } else {
+            bot.armL.rotation.x = Math.sin(elapsed * speed + bot.phase) * amp;
+            bot.armR.rotation.x = -Math.sin(elapsed * speed + bot.phase) * amp;
+          }
         }
       }
     });
 
-    if (lobbyParticles) {
-      lobbyParticles.rotation.y = elapsed * 0.06;
-    }
-
-    if (camTransition.active) {
-      const lerpAlpha = Math.min(1, delta * 4.5);
-      camera.position.lerp(camTransition.targetPos, lerpAlpha);
-      controls.target.lerp(camTransition.targetLookAt, lerpAlpha);
-      camera.zoom = THREE.MathUtils.lerp(camera.zoom, camTransition.targetZoom, lerpAlpha);
-      camera.updateProjectionMatrix();
-
-      if (
-        camera.position.distanceTo(camTransition.targetPos) < 0.06 &&
-        controls.target.distanceTo(camTransition.targetLookAt) < 0.06 &&
-        Math.abs(camera.zoom - camTransition.targetZoom) < 0.015
-      ) {
-        camTransition.active = false;
-      }
-
-    }
-
-    controls.update();
-    updateHotspotPositions(nowSec);
+    updateHotspotPositions();
     composer.render();
   }
 
-
-  /**
-   * =========================================================================
-   * 4. SERVER-SIDE GEMINI AI PROXY (/api/gemini) & REAL-TIME LIVE PRESENCE (/api/sync)
-   * =========================================================================
-   */
   let partner3DAvatarsGroup = null;
-  const partner3DAvatarBadges = [];
-  let livePresenceState = {};
-  const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('seiya-studio-live-sync') : null;
 
-  const ZONE_DISPLAY_NAMES = {
-    overview: 'Tampilan Keseluruhan',
-    lobby: 'Lobby Utama',
-    security: 'Pos Security',
-    vip: 'Rest Room',
-    boardroom: 'Meeting Room',
-    pod: 'Manager Room',
-    owner: 'Ruang Owner',
-    commissioner: 'Ruang Komisaris',
-    pantry: 'Pantry',
-    noc: 'Engineering Room',
-    visual3d: '3D Visual Room',
-    workspace: 'Administration Room',
-    rnd: 'Plannologi Room',
-    design_vault: 'Design Server Room'
-  };
+  function updateLivePresenceUI() {
+    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+    const partners = getStoredPartners();
+    const verifiedPartners = partners.filter(p => p.verified && !p.closedByExecutive);
+    const onlinePartners = verifiedPartners.filter(p => p.isOnline);
 
-  async function askRealGeminiAgent(bot, userPrompt, contextNotes = "") {
-    if (!bot || bot.isExecutive || bot.isSecurity) return null;
-    try {
-      const response = await fetch('/api/gemini', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          roleTitle: bot.roleTitle,
-          roomCode: bot.roomCode,
-          prompt: userPrompt,
-          contextNotes
-        })
-      });
-      if (!response.ok) return null;
-      const data = await response.json();
-      return data?.reply || null;
-    } catch (_err) {
-      return null;
-    }
-  }
+    const ownerStatusEl = document.getElementById("presence-owner-status");
+    const commStatusEl = document.getElementById("presence-comm-status");
+    const partnersContainer = document.getElementById("presence-partners-container");
+    const countBadge = document.getElementById("live-online-count-badge");
 
-  function updateLivePresenceUI(presenceMap) {
-    livePresenceState = presenceMap || {};
-    const now = Date.now();
-    const activeEntries = Object.values(livePresenceState).filter(u => u && (now - (u.ts || 0)) < 20000);
+    const ownerOnline = !!session && session.id === "SuperSEIYA";
+    const commOnline = !!session && session.id === "SuperPRICILIA";
 
-    const badgeEl = document.getElementById('live-online-count-badge');
-    if (badgeEl) badgeEl.textContent = `${Math.max(1, activeEntries.length)} Aktif`;
-
-    const ownerEntry = activeEntries.find(u => u.role === 'Owner');
-    const ownerEl = document.getElementById('presence-owner-status');
-    if (ownerEl) {
-      if (ownerEntry) {
-        const zName = ZONE_DISPLAY_NAMES[ownerEntry.activeZone] || 'Ruang Owner';
-        ownerEl.className = 'flex items-center gap-1 text-[9.5px] text-green-400 truncate';
-        ownerEl.innerHTML = `<span class="dot !h-1.5 !w-1.5"></span>Online • ${zName}`;
-      } else {
-        ownerEl.className = 'flex items-center gap-1 text-[9.5px] text-slate-400 truncate';
-        ownerEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-slate-500 shrink-0"></span>Offline`;
-      }
+    if (ownerStatusEl) {
+      ownerStatusEl.className = `flex items-center gap-1 text-[9.5px] truncate ${ownerOnline ? "text-green-400" : "text-slate-400"}`;
+      ownerStatusEl.innerHTML = ownerOnline
+        ? `<span class="dot !h-1.5 !w-1.5"></span>Online • Ruang Owner`
+        : `<span class="w-1.5 h-1.5 rounded-full bg-slate-500 shrink-0"></span>Standby • Ruang Owner`;
     }
 
-    const commEntry = activeEntries.find(u => u.role === 'Komisaris');
-    const commEl = document.getElementById('presence-comm-status');
-    if (commEl) {
-      if (commEntry) {
-        const zName = ZONE_DISPLAY_NAMES[commEntry.activeZone] || 'Ruang Komisaris';
-        commEl.className = 'flex items-center gap-1 text-[9.5px] text-pink-300 truncate';
-        commEl.innerHTML = `<span class="dot !h-1.5 !w-1.5 !bg-pink-400"></span>Online • ${zName}`;
-      } else {
-        commEl.className = 'flex items-center gap-1 text-[9.5px] text-slate-400 truncate';
-        commEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-slate-500 shrink-0"></span>Offline`;
-      }
+    if (commStatusEl) {
+      commStatusEl.className = `flex items-center gap-1 text-[9.5px] truncate ${commOnline ? "text-green-400" : "text-slate-400"}`;
+      commStatusEl.innerHTML = commOnline
+        ? `<span class="dot !h-1.5 !w-1.5"></span>Online • Ruang Komisaris`
+        : `<span class="w-1.5 h-1.5 rounded-full bg-slate-500 shrink-0"></span>Standby • Ruang Komisaris`;
     }
 
-    const onlinePartners = activeEntries.filter(u => u.role === 'Rekan Bisnis');
-    const partnersContainer = document.getElementById('presence-partners-container');
     if (partnersContainer) {
-      partnersContainer.innerHTML = onlinePartners.map(p => {
-        const zName = ZONE_DISPLAY_NAMES[p.activeZone] || 'Design Server Room';
-        const pName = p.name || p.id;
+      partnersContainer.innerHTML = verifiedPartners.map(p => {
+        const isCurrentMe = !!session && session.role === "Rekan Bisnis" && session.id === p.id;
+        const onlineNow = p.isOnline || isCurrentMe;
         return `
-          <div class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('${p.activeZone || 'boardroom'}')">
-            <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-emerald-300 text-[9px] font-bold text-slate-900">RB</span>
+          <div class="flex items-center gap-2 cursor-pointer hover:bg-blue-800/30 p-1 rounded" onclick="focusOnZone('vip')">
+            <span class="grid h-6 w-6 shrink-0 place-items-center rounded-md ${onlineNow ? 'bg-emerald-300 text-slate-900' : 'bg-slate-700 text-slate-300'} text-[9px] font-bold">${initials(p.fullName)}</span>
             <div class="min-w-0">
-              <p class="font-medium truncate text-emerald-200">${pName}</p>
-              <p class="flex items-center gap-1 text-[9.5px] text-emerald-400 truncate"><span class="dot !h-1.5 !w-1.5"></span>Online • ${zName}</p>
+              <p class="font-medium truncate">${p.fullName}</p>
+              <p class="flex items-center gap-1 text-[9.5px] ${onlineNow ? 'text-emerald-400' : 'text-slate-400'} truncate">
+                <span class="${onlineNow ? 'dot !h-1.5 !w-1.5' : 'w-1.5 h-1.5 rounded-full bg-slate-500 shrink-0'}"></span>
+                ${onlineNow ? 'Online • Rest Room VIP' : 'Offline'}
+              </p>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    syncOnlinePartners3DAvatars(onlinePartners);
-  }
-
-  function syncOnlinePartners3DAvatars(onlinePartners) {
-    if (!partner3DAvatarsGroup || !is3DInitialized) return;
-    while (partner3DAvatarsGroup.children.length > 0) {
-      partner3DAvatarsGroup.remove(partner3DAvatarsGroup.children[0]);
-    }
-    partner3DAvatarBadges.forEach(b => b.remove());
-    partner3DAvatarBadges.length = 0;
-
-    const meetingSeats = [
-      [0.46, 5.12, 0], [1.38, 5.12, 0], [2.30, 5.12, 0], [3.22, 5.12, 0], [4.14, 5.12, 0],
-      [0.46, 7.28, Math.PI], [1.38, 7.28, Math.PI], [2.30, 7.28, Math.PI], [3.22, 7.28, Math.PI], [4.14, 7.28, Math.PI]
-    ];
-
-    onlinePartners.slice(0, meetingSeats.length).forEach((p, idx) => {
-      const [sx, sz, srot] = meetingSeats[idx];
-      const avatar = new THREE.Group();
-      avatar.position.set(sx, 0.16, sz);
-      avatar.rotation.y = srot;
-
-      const skinMat = new THREE.MeshStandardMaterial({ color: 0xf5cba7, roughness: 0.55 });
-      const suitMat = new THREE.MeshStandardMaterial({ color: 0x065f46, roughness: 0.45 });
-      const pantsMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.55 });
-      const tieMat = new THREE.MeshBasicMaterial({ color: 0x34d399 });
-
-      const legL = addBox(avatar, 0.18, 0.46, 0.20, -0.10, 0.34, 0.14, pantsMat);
-      const legR = addBox(avatar, 0.18, 0.46, 0.20,  0.10, 0.34, 0.14, pantsMat);
-      legL.rotation.x = -Math.PI / 2.3;
-      legR.rotation.x = -Math.PI / 2.3;
-
-      addBox(avatar, 0.44, 0.50, 0.24, 0, 0.72, 0, suitMat);
-      addBox(avatar, 0.08, 0.30, 0.03, 0, 0.74, 0.125, tieMat, false);
-
-      const armL = addBox(avatar, 0.15, 0.46, 0.17, -0.30, 0.72, 0.12, suitMat);
-      const armR = addBox(avatar, 0.15, 0.46, 0.17,  0.30, 0.72, 0.12, suitMat);
-      armL.rotation.x = -0.68;
-      armR.rotation.x = -0.68;
-
-      addBox(avatar, 0.34, 0.34, 0.34, 0, 1.14, 0, skinMat);
-      partner3DAvatarsGroup.add(avatar);
-
-      const badge = document.createElement('div');
-      badge.className = 'absolute z-20 pointer-events-none px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-emerald-950/90 text-emerald-200 border border-emerald-400/70 shadow whitespace-nowrap';
-      badge.style.transform = 'translate(-50%, -100%)';
-      badge.textContent = `🤝 ${p.name || p.id}`;
-      badge.dataset.wx = String(sx);
-      badge.dataset.wy = '1.78';
-      badge.dataset.wz = String(sz);
-      document.getElementById('labels-layer')?.appendChild(badge);
-      partner3DAvatarBadges.push(badge);
-    });
-  }
-
-  async function syncRealtimeStateWithServer() {
-    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-    if (!session) return;
-
-    const myPresence = {
-      id: session.id,
-      name: session.fullName || session.id,
-      role: session.role,
-      activeZone: activeZoneKey || 'overview',
-      ts: Date.now()
-    };
-
-    livePresenceState[session.id] = myPresence;
-    if (syncChannel) {
-      try {
-        syncChannel.postMessage({
-          type: 'presence_and_data',
-          presence: myPresence,
-          partners: getStoredPartners(),
-          vault: STORED_WORK_PACKAGES.slice(0, 40)
-        });
-      } catch (_e) {}
+    if (countBadge) {
+      const activeHumans = (ownerOnline ? 1 : 0) + (commOnline ? 1 : 0) + onlinePartners.length;
+      countBadge.textContent = `${activeHumans} Online`;
     }
 
-    try {
-      const res = await fetch('/api/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          presence: myPresence,
-          partners: getStoredPartners(),
-          vaultPackages: STORED_WORK_PACKAGES.slice(0, 40)
-        })
+    if (partner3DAvatarsGroup) {
+      while (partner3DAvatarsGroup.children.length > 0) {
+        partner3DAvatarsGroup.remove(partner3DAvatarsGroup.children[0]);
+      }
+      onlinePartners.forEach((p, idx) => {
+        const seatX = -7.65 + (idx % 3) * 1.15;
+        const seatZ = idx % 2 === 0 ? 4.65 : 6.95;
+        const rotY = idx % 2 === 0 ? 0 : Math.PI;
+        const pGroup = new THREE.Group();
+        pGroup.position.set(seatX, 0.25, seatZ);
+        pGroup.rotation.y = rotY;
+
+        const bodyMat = new THREE.MeshStandardMaterial({ color: 0x059669, roughness: 0.45 });
+        const headMat = new THREE.MeshStandardMaterial({ color: 0xfcd5b5, roughness: 0.55 });
+        addBox(pGroup, 0.42, 0.48, 0.24, 0, 0.72, 0, bodyMat);
+        addBox(pGroup, 0.32, 0.32, 0.32, 0, 1.12, 0, headMat);
+        partner3DAvatarsGroup.add(pGroup);
       });
-      if (res.ok) {
-        const serverState = await res.json();
-        if (serverState?.presenceMap) {
-          updateLivePresenceUI(serverState.presenceMap);
-        }
-        if (Array.isArray(serverState?.partners) && serverState.partners.length > 0) {
-          const localPartners = getStoredPartners();
-          const mergedMap = new Map();
-          localPartners.forEach(p => mergedMap.set(p.id, p));
-          serverState.partners.forEach(sp => {
-            const existing = mergedMap.get(sp.id);
-            if (!existing) {
-              mergedMap.set(sp.id, sp);
-            } else {
-              mergedMap.set(sp.id, {
-                ...existing,
-                verified: existing.verified || sp.verified,
-                closedByExecutive: existing.closedByExecutive || sp.closedByExecutive,
-                lastActiveAt: Math.max(existing.lastActiveAt || 0, sp.lastActiveAt || 0),
-                totalUsageSeconds: Math.max(existing.totalUsageSeconds || 0, sp.totalUsageSeconds || 0)
-              });
-            }
-          });
-          const mergedList = Array.from(mergedMap.values());
-          saveStoredPartners(mergedList);
-          if (isExecutiveUser(session)) {
-            renderOwnerPartnersPanel(session);
-            renderExecutiveSenderButtons(session);
-          }
-        }
-        if (Array.isArray(serverState?.vaultPackages) && serverState.vaultPackages.length > 0) {
-          let added = false;
-          serverState.vaultPackages.forEach(spkg => {
-            if (!STORED_WORK_PACKAGES.some(lp => lp.id === spkg.id)) {
-              STORED_WORK_PACKAGES.push(spkg);
-              added = true;
-            }
-          });
-          if (added) {
-            savePersistedVaultPackages(STORED_WORK_PACKAGES);
-            renderDesignServerRoom();
-          }
-        }
-      } else {
-        updateLivePresenceUI(livePresenceState);
-      }
-    } catch (_err) {
-      updateLivePresenceUI(livePresenceState);
     }
   }
 
-  if (syncChannel) {
-    syncChannel.onmessage = (ev) => {
-      const msg = ev.data;
-      if (!msg || msg.type !== 'presence_and_data') return;
-      if (msg.presence?.id) {
-        livePresenceState[msg.presence.id] = msg.presence;
-        updateLivePresenceUI(livePresenceState);
+  window.addEventListener("storage", (e) => {
+    if (e.key === PARTNERS_KEY || e.key === SERVER_VAULT_DB_KEY || e.key === MIND_VAULT_DB_KEY) {
+      const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+      if (session) {
+        renderOwnerPartnersPanel(session);
+        renderExecutiveSenderButtons(session);
+        updateLivePresenceUI();
+        renderDesignServerRoom();
       }
-    };
-  }
+    }
+  });
 
-  setInterval(syncRealtimeStateWithServer, 4500);
+  setInterval(() => {
+    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+    if (session) updateLivePresenceUI();
+  }, 2000);
 
   lucide.createIcons();
   render();
